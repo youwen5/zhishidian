@@ -9,10 +9,13 @@ const useStyles = makeStyles({
   root: {
     width: 200,
     display: "flex",
-    flexDirection: "column",
+    flexDirection: "row",
     position: "absolute",
-    top: "20%",
-    transform: "translateY(-50%)"
+    top: "7.5%",
+    left: "50%",
+    transform: "translateY(-50%)",
+    // eslint-disable-next-line
+    transform: "translateX(-50%)"
   },
   
 });

@@ -4,6 +4,7 @@ import BottomNavigation from '@material-ui/core/BottomNavigation';
 import BottomNavigationAction from '@material-ui/core/BottomNavigationAction';
 import AccountCircleIcon from '@material-ui/icons/AccountCircle';
 import DynamicFeedIcon from '@material-ui/icons/DynamicFeed';
+import { Link, useLocation } from 'react-router-dom';
 
 const useStyles = makeStyles({
   root: {
@@ -23,19 +24,20 @@ const useStyles = makeStyles({
 export default function SimpleBottomNavigation() {
   const classes = useStyles();
   const [value, setValue] = React.useState(0);
+  const location = useLocation();
 
   return (
     <div>
         <BottomNavigation
-        value={value}
+        value={location.pathname}
         onChange={(event, newValue) => {
-            setValue(newValue);
+          setValue(newValue);
         }}
         showLabels
         className={classes.root}
         >
-        <BottomNavigationAction label="Feed" icon={<DynamicFeedIcon />} />
-        <BottomNavigationAction label="Profile" icon={<AccountCircleIcon />} />
+        <BottomNavigationAction component={Link} to="/" value="/" label="Feed" icon={<DynamicFeedIcon />} />
+        <BottomNavigationAction component={Link} to="/profile" value="/profile" label="Profile" icon={<AccountCircleIcon />} />
         </BottomNavigation>
     </div>
   );

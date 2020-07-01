@@ -5,7 +5,7 @@ import BottomNavigationAction from '@material-ui/core/BottomNavigationAction';
 import AccountCircleIcon from '@material-ui/icons/AccountCircle';
 import DynamicFeedIcon from '@material-ui/icons/DynamicFeed';
 import { Link, useLocation } from 'react-router-dom';
-import Grid from '@material-ui/core/grid';
+import { Grid } from '@material-ui/core';
 
 const useStyles = makeStyles({
   root: {

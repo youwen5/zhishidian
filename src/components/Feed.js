@@ -1,6 +1,6 @@
 import React, { Fragment, Component } from 'react';
-import TextField from '@material-ui/core/TextField';
-import Grid from '@material-ui/core/Grid';
+import { Grid, TextField } from '@material-ui/core';
+import LinearIndeterminate from './LinearIndeterminate';
 import Post from './Post';
 import axios from 'axios';
 const config = require('../config.json');
@@ -34,7 +34,7 @@ class Feed extends Component {
     componentDidMount = () => {
         this.getPosts();
     }
-    
+
     render() {
         return (
             <Fragment>
@@ -66,7 +66,9 @@ class Feed extends Component {
                                 ))}
                         </Grid>
                     </div>
-                ) : "No courses found" }
+                ) : <div>
+                        <LinearIndeterminate />
+                    </div> }
             </div>
             </Fragment>
         )

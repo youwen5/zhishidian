@@ -3,7 +3,7 @@ import { Grid, TextField } from '@material-ui/core';
 import LinearIndeterminate from './LinearIndeterminate';
 import Post from './Post';
 import axios from 'axios';
-const config = require('../config.json');
+const config = require('./config.json');
 
 class Feed extends Component {
     state = {

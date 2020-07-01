@@ -27,23 +27,18 @@ export default function Post(props) {
         <Fragment>
             <Card className={classes.root} variant="outlined">
             <CardContent>
-                <Typography className={classes.title} color="textSecondary" gutterBottom>
-                test title
-                </Typography>
                 <Typography variant="h5" component="h2">
-                test text
+                {props.post.title}
                 </Typography>
                 <Typography className={classes.pos} color="textSecondary">
-                test text 2
+                {props.post.author}
                 </Typography>
                 <Typography variant="body2" component="p">
-                test text 3
-                <br />
-                test
+                {props.post.content}
                 </Typography>
             </CardContent>
             <CardActions>
-                <Button size="small">Learn More</Button>
+                <Button size="small">See More</Button>
             </CardActions>
             </Card>
         </Fragment>

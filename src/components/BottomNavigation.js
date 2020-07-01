@@ -4,39 +4,46 @@ import BottomNavigation from '@material-ui/core/BottomNavigation';
 import BottomNavigationAction from '@material-ui/core/BottomNavigationAction';
 import AccountCircleIcon from '@material-ui/icons/AccountCircle';
 import DynamicFeedIcon from '@material-ui/icons/DynamicFeed';
+import { Link, useLocation } from 'react-router-dom';
+import Grid from '@material-ui/core/grid';
 
 const useStyles = makeStyles({
   root: {
+    flexGrow: 1,
     width: 200,
     display: "flex",
     flexDirection: "row",
     position: "absolute",
-    top: "7.5%",
+    top: '10%',
     left: "50%",
     transform: "translateY(-50%)",
     // eslint-disable-next-line
-    transform: "translateX(-50%)"
+    transform: "translateX(-50%)",
+    backgroundColor: "transparent"
   },
   
 });
 
 export default function SimpleBottomNavigation() {
   const classes = useStyles();
-  const [value, setValue] = React.useState(0);
+  // const [value, setValue] = React.useState(0);
+  const location = useLocation();
 
   return (
+    <Grid container>
     <div>
         <BottomNavigation
-        value={value}
-        onChange={(event, newValue) => {
-            setValue(newValue);
-        }}
+        value={location.pathname}
+        // onChange={(event, newValue) => {
+        //   setValue(newValue);
+        // }}
         showLabels
         className={classes.root}
         >
-        <BottomNavigationAction label="Feed" icon={<DynamicFeedIcon />} />
-        <BottomNavigationAction label="Profile" icon={<AccountCircleIcon />} />
+        <BottomNavigationAction component={Link} to="/" value="/" label="Feed" icon={<DynamicFeedIcon />} />
+        <BottomNavigationAction component={Link} to="/profile" value="/profile" label="Profile" icon={<AccountCircleIcon />} />
         </BottomNavigation>
     </div>
+    </Grid>
   );
 }

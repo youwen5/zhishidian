@@ -27,7 +27,11 @@ const useStyles = makeStyles({
 export default function SimpleBottomNavigation() {
   const classes = useStyles();
   // const [value, setValue] = React.useState(0);
-  const location = useLocation();
+  let location = useLocation();
+  
+  if (!(location.pathname.slice(-1) === '/')) {
+    location.pathname += '/';
+  }
 
   return (
     <Grid container>
@@ -41,7 +45,7 @@ export default function SimpleBottomNavigation() {
         className={classes.root}
         >
         <BottomNavigationAction component={Link} to="/" value="/" label="Feed" icon={<DynamicFeedIcon />} />
-        <BottomNavigationAction component={Link} to="/profile" value="/profile" label="Profile" icon={<AccountCircleIcon />} />
+        <BottomNavigationAction component={Link} to="/profile/" value="/profile/" label="Profile" icon={<AccountCircleIcon />} />
         </BottomNavigation>
     </div>
     </Grid>

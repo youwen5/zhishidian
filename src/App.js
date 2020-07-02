@@ -16,7 +16,7 @@ class App extends Component {
         <div>
           <Switch>
             <Route path="/" exact component={ Feed } />
-            <Route path="/profile" exact component={ Profile } />
+            <Route path="/profile/" exact component={ Profile } />
             <Route exact component={ PageNotFound } />
           </Switch>
         </div>

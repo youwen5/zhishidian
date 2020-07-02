@@ -3,6 +3,7 @@ import { Grid, TextField } from '@material-ui/core';
 import LinearIndeterminate from './LinearIndeterminate';
 import Post from './Post';
 import axios from 'axios';
+import CreatePost from './CreatePost.js';
 const config = require('./config.json');
 
 class Feed extends Component {
@@ -46,7 +47,9 @@ class Feed extends Component {
                             placeholder="Search"   
                             margin="normal"
                             onChange={this.onSearchInputChange}
+                            variant="outlined"
                             />
+                        <CreatePost />
                         <Grid container spacing={4} style={{padding: 24}}>
                             { 
                                 this.state.posts.map(currentPost => (

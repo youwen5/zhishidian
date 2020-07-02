@@ -6,11 +6,10 @@ import { makeStyles } from '@material-ui/core/styles';
 const useStyles = makeStyles((theme) => ({
     button: {
         marginLeft: theme.spacing(3),
-        display: "inline"
     }
 }))
 
-const CreatePost = () => {
+const CreatePost = (onClick) => {
     const classes = useStyles();
 
     return (
@@ -20,6 +19,7 @@ const CreatePost = () => {
             color="primary"
             className={classes.button}
             startIcon={<AddIcon />}
+            onClick={() => console.log('clicked!')}
             >
                 Create
             </Button>

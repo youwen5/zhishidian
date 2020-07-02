@@ -19,7 +19,6 @@ class Feed extends Component {
         try {
             const response = await axios.get(`${config.api.invokeUrl}/posts`);
             this.setState({ posts: response.data });
-            console.log(this.state.posts);
         } catch(err) {
             console.log(`An error has occurred ${err}`);
         }
@@ -53,9 +52,9 @@ class Feed extends Component {
                         <Grid container spacing={4} style={{padding: 24}}>
                             { 
                                 this.state.posts.map(currentPost => (
-                                    (currentPost.title.includes(this.state.searchString)
-                                    || currentPost.author.includes(this.state.searchString)
-                                    || currentPost.content.includes(this.state.searchString))
+                                    (currentPost.title.toLowerCase().includes(this.state.searchString.toLowerCase())
+                                    || currentPost.author.toLowerCase().includes(this.state.searchString.toLowerCase())
+                                    || currentPost.content.toLowerCase().includes(this.state.searchString.toLowerCase()))
                                     ? <Grid item xs={12} sm={6} lg={4} xl={3}>
                                         <Post post = {
                                             {

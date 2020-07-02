@@ -29,8 +29,8 @@ export default function SimpleBottomNavigation() {
   // const [value, setValue] = React.useState(0);
   let location = useLocation();
   
-  if (!(location.pathname.slice(-1) === '/')) {
-    location.pathname += '/';
+  if (location.pathname.slice(-1) === '/' && location.pathname.length > 1) {
+    location.pathname = location.pathname.substring(0, location.pathname.length - 1)
   }
 
   return (
@@ -45,7 +45,7 @@ export default function SimpleBottomNavigation() {
         className={classes.root}
         >
         <BottomNavigationAction component={Link} to="/" value="/" label="Feed" icon={<DynamicFeedIcon />} />
-        <BottomNavigationAction component={Link} to="/profile/" value="/profile/" label="Profile" icon={<AccountCircleIcon />} />
+        <BottomNavigationAction component={Link} to="/profile" value="/profile" label="Profile" icon={<AccountCircleIcon />} />
         </BottomNavigation>
     </div>
     </Grid>

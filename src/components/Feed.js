@@ -4,6 +4,7 @@ import LinearIndeterminate from './LinearIndeterminate';
 import Post from './Post';
 import axios from 'axios';
 import CreatePost from './CreatePost.js';
+
 const config = require('./config.json');
 
 class Feed extends Component {
@@ -14,6 +15,7 @@ class Feed extends Component {
     constructor() {
         super();
         this.getPosts();
+        this.handleRefresh = this.handleRefresh.bind(this);
     }
     getPosts = async () => {
         try {
@@ -35,6 +37,12 @@ class Feed extends Component {
         this.getPosts();
     }
 
+    handleRefresh = () => {
+        this.setState({ posts: [] });
+
+        this.getPosts();
+    }
+
     render() {
         return (
             <Fragment>
@@ -48,7 +56,7 @@ class Feed extends Component {
                             onChange={this.onSearchInputChange}
                             variant="outlined"
                             />
-                        <CreatePost />
+                        <CreatePost refreshPage={this.handleRefresh} />
                         <Grid container spacing={4} style={{padding: 24}}>
                             { 
                                 this.state.posts.map(currentPost => (

@@ -21,3 +21,7 @@ html, body {
   max-width: 100%;
   overflow-x: hidden;
 }
+
+html {
+  overflow-y: overlay;
+}

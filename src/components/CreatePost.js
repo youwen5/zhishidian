@@ -15,9 +15,9 @@ const useStyles = makeStyles((theme) => ({
     button: {
         marginLeft: theme.spacing(3),
     },
-    createPostForm: {
-        
-    }
+    charCountOver: {
+        color: 'red',
+    },
 }))
 
 const CreatePost = (props) => {
@@ -61,7 +61,9 @@ const CreatePost = (props) => {
 
     const handleAddPost = async () => {
         try {
+            const timeNow = new Date().toISOString();
             const params = {
+                "createdAt": timeNow,
                 "title": title,
                 "author": author,
                 "content": content,
@@ -75,7 +77,7 @@ const CreatePost = (props) => {
     }
 
     const handlePostCreation = () => {
-        if (!title || !content || !author) {
+        if (!title || !content || !author || content.length > 1000) {
             setTitleError(!title ? true : false);
             setContentError(!content ? true : false);
             setAuthorError(!author ? true : false); // placeholder for author
@@ -148,10 +150,14 @@ const CreatePost = (props) => {
                     defaultValue={content}
                     fullWidth
                 />
-                <DialogContentText variant="caption">
-                    {`Char count: ${content.length}`}
+                <DialogContentText variant="caption" className={content.length > 1000 ? classes.charCountOver : null}>
+                    {`Char count: ${content.length}/1000`}
                 </DialogContentText>
-                {/* <Typography variant="caption">{`Char count: ${content.length}`}</Typography> */}
+                {
+                    content.length > 1000
+                    ? <DialogContentText variant="caption" className={classes.charCountOver}>Character limit reached!</DialogContentText>
+                    : null
+                }
                 </DialogContent>
                 <DialogActions>
                 <Button onClick={() => {

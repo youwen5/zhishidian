@@ -20,7 +20,7 @@ class Feed extends Component {
     getPosts = async () => {
         try {
             const response = await axios.get(`${config.api.invokeUrl}/posts`);
-            this.setState({ posts: response.data });
+            this.setState({ posts: this.sortArrayByISO(response.data) });
         } catch(err) {
             console.log(`An error has occurred ${err}`);
         }
@@ -42,6 +42,12 @@ class Feed extends Component {
 
         this.getPosts();
     }
+    sortArrayByISO = (array) => {
+        return array.sort((a, b) => {
+            return (a.createdAt > b.createdAt) ? -1 : ((a.createdAt < b.createdAt) ? 1 : 0);
+        });
+    }
+
 
     render() {
         return (

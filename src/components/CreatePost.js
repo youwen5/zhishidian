@@ -8,8 +8,7 @@ import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import AddIcon from '@material-ui/icons/Add';
 import { makeStyles } from '@material-ui/core/styles';
-import axios from 'axios';
-const config = require('./config.json');
+import postItem from './databaseManagement/postItem';
 
 const useStyles = makeStyles((theme) => ({
     button: {
@@ -61,14 +60,7 @@ const CreatePost = (props) => {
 
     const handleAddPost = async () => {
         try {
-            const timeNow = new Date().toISOString();
-            const params = {
-                "createdAt": timeNow,
-                "title": title,
-                "author": author,
-                "content": content,
-            };
-            await axios.post(`${config.api.invokeUrl}/posts/${title}`, params);
+            await postItem(title, author, content);
         } catch(error) {
             console.log("error occurred while posting: " + error);
         } finally {

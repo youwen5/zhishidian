@@ -2,10 +2,8 @@ import React, { Fragment, Component } from 'react';
 import { Grid, TextField } from '@material-ui/core';
 import LinearIndeterminate from './LinearIndeterminate';
 import Post from './Post';
-import axios from 'axios';
 import CreatePost from './CreatePost.js';
-
-const config = require('./config.json');
+import getAll from './databaseManagement/getAll';
 
 class Feed extends Component {
     state = {
@@ -19,10 +17,11 @@ class Feed extends Component {
     }
     getPosts = async () => {
         try {
-            const response = await axios.get(`${config.api.invokeUrl}/posts`);
-            this.setState({ posts: this.sortArrayByISO(response.data) });
-        } catch(err) {
-            console.log(`An error has occurred ${err}`);
+            const response = await getAll();
+            response.reverse();
+            this.setState({ posts: response });
+        } catch(error) {
+            console.log(`An error occurred while displaying posts`);
         }
     }
     onSearchInputChange = (event) => {
@@ -42,12 +41,6 @@ class Feed extends Component {
 
         this.getPosts();
     }
-    sortArrayByISO = (array) => {
-        return array.sort((a, b) => {
-            return (a.createdAt > b.createdAt) ? -1 : ((a.createdAt < b.createdAt) ? 1 : 0);
-        });
-    }
-
 
     render() {
         return (

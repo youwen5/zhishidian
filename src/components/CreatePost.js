@@ -41,14 +41,20 @@ const CreatePost = (props) => {
     };
 
     const handleTitleInputChange = (titleInput) => {
+        setTitleError(false);
+        
         setTitle(titleInput.target.value);
     };
 
     const handleContentInputChange = (contentInput) => {
+        setContentError(false);
+
         setContent(contentInput.target.value);
     };
 
-    const handleAuthorInputChange = (authorInput) => { // placeholder for author
+    const handleAuthorInputChange = (authorInput) => {
+        setAuthorError(false);
+        // placeholder for author
         setAuthor(authorInput.target.value);
     }
 

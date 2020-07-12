@@ -3,9 +3,7 @@ const config = require('./config.json');
 
 export default async function postItem(title, author, content) {
     try {
-        const timeNow = new Date().toISOString();
         const params = {
-            "createdAt": timeNow,
             "title": title,
             "author": author,
             "content": content,

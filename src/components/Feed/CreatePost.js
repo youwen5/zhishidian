@@ -66,28 +66,52 @@ const CreatePost = (props) => {
 
     const handleAddPost = async () => {
         try {
+            props.causeLoading();
+            setOpen(false);
             await postItem(title, author, content);
         } catch(error) {
             console.log("error occurred while posting: " + error);
+            throw error;
         } finally {
             props.refreshPage();
         }
     }
 
-    const handlePostCreation = () => {
-        if (!title || !content || !author || content.length > 1000) {
-            setTitleError(!title ? true : false);
-            setContentError(!content ? true : false);
-            setAuthorError(!author ? true : false); // placeholder for author
-        } else {
-            // put api calls here
-            handleAddPost();
-
-            setTitle('');
-            setContent('');
-            setAuthor('');
+    const handleSuccess = () => {
+        props.pushNotification('success', 'Post created successfully!');
+    }
     
-            handleClose();
+    const handleFailure = () => {
+        props.pushNotification('error', 'Failed to create post. Try again later');
+    }
+
+    const handlePostCreation = async () => {
+        const whiteSpaceRegex = /\s/g
+
+        if (!title
+             || !content
+             || !author
+             || content.length > 1000 
+             || !title.replace(whiteSpaceRegex, '').length 
+             || !content.replace(whiteSpaceRegex, '') 
+             || !author.replace(whiteSpaceRegex, '')) {
+            setTitleError(!title || !title.replace(whiteSpaceRegex, '').length ? true : false);
+            setContentError(!content || !content.replace(whiteSpaceRegex, '').length ? true : false);
+            setAuthorError(!author || !author.replace(whiteSpaceRegex, '').length ? true : false); // placeholder for author
+        } else {
+            try {
+                await handleAddPost();
+
+                handleSuccess();
+
+                setTitle('');
+                setContent('');
+                setAuthor('');
+        
+                handleClose();
+            } catch(error) {
+                handleFailure();
+            }
         }
     }
 
@@ -100,6 +124,7 @@ const CreatePost = (props) => {
             className={classes.button}
             startIcon={<AddIcon />}
             onClick= {handleClickOpen}
+            aria-label='Create post'
             >
                 Create
             </Button>

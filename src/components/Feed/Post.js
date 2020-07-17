@@ -11,7 +11,7 @@ const useStyles = makeStyles({
     flexGrow: 1
   },
   title: {
-    fontSize: 14,
+    fontWeight: 400
   },
   pos: {
     marginBottom: 12,
@@ -27,13 +27,13 @@ export default function Post(props) {
         <Fragment>
             <Card className={classes.root} variant="outlined">
             <CardContent>
-                <Typography variant="h5" component="h2">
+                <Typography variant="h4" className={classes.title} component="h2">
                 {props.post.title}
                 </Typography>
                 <Typography className={classes.pos} color="textSecondary">
                 {props.post.author}
                 </Typography>
-                <Typography variant="body2" component="p">
+                <Typography variant="body1" component="p">
                 {props.post.content}
                 </Typography>
             </CardContent>

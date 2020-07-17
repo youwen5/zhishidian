@@ -11,5 +11,6 @@ export default async function postItem(title, author, content) {
         await axios.post(`${config.api.invokeUrl}/posts/${title}`, params);
     } catch(error) {
         console.log(`Error occurred posting: ${error}`);
+        throw Error;
     }
 }

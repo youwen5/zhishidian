@@ -6,7 +6,7 @@ import { makeStyles } from '@material-ui/core/styles';
 const useStyles = makeStyles({
     button: {
         left: "50%",
-        transform: "translateX(-50%)"
+        transform: "translateX(-50%)",
     }
 });
 

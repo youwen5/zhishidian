@@ -85,7 +85,6 @@ class Feed extends Component {
             } else {
                 this.setState({ morePoststoFetch: false });
             }
-
             this.setState({ posts: [...this.state.posts, ...newPosts] });
         } catch {
             console.log('error occurred fetching');
@@ -125,16 +124,6 @@ class Feed extends Component {
 
         return (
             <div>
-                {/* <Alert 
-                    isOpen={this.state.notificationActive.isActive} 
-                    // severity={this.state.notificationActive.notifType} 
-                    // autohide={this.state.notificationActive.timeout}
-                    // text={this.state.notificationActive.notifContent}
-                    // onClose={this.handleStopNotification}
-                    autohide={3000}
-                    text='test'
-
-                /> */}
                 <Alert
                  severity={this.state.notificationActive.notifType}
                  autoHide={3000} 
@@ -161,13 +150,18 @@ class Feed extends Component {
                             { 
                                 this.state.posts.map(currentPost => (
                                     <Grid item xs={12} sm={6} lg={4} xl={3}>
-                                        <Post post={
+                                        <Post 
+                                        post={
                                             {
                                                 "title": currentPost.title,
                                                 "author": currentPost.author,
-                                                "content": currentPost.content
+                                                "content": currentPost.content,
+                                                "date": currentPost.time,
+                                                "pfColor": currentPost.pfColor
                                             }
-                                        } />
+                                        } 
+                                        pushNotification={this.handleNotification}
+                                        />
                                     </Grid>
                                 ))
                             }

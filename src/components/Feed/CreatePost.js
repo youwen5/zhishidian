@@ -91,7 +91,7 @@ const CreatePost = (props) => {
         if (!title
              || !content
              || !author
-             || content.length > 1000 
+             || content.length > 3000
              || !title.replace(whiteSpaceRegex, '').length 
              || !content.replace(whiteSpaceRegex, '') 
              || !author.replace(whiteSpaceRegex, '')) {
@@ -173,11 +173,11 @@ const CreatePost = (props) => {
                     defaultValue={content}
                     fullWidth
                 />
-                <DialogContentText variant="caption" className={content.length > 1000 ? classes.charCountOver : null}>
-                    {`Char count: ${content.length}/1000`}
+                <DialogContentText variant="caption" className={content.length > 3000 ? classes.charCountOver : null}>
+                    {`Char count: ${content.length}/3000`}
                 </DialogContentText>
                 {
-                    content.length > 1000
+                    content.length > 3000
                     ? <DialogContentText variant="caption" className={classes.charCountOver}>Character limit reached!</DialogContentText>
                     : null
                 }

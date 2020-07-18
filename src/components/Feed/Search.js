@@ -5,7 +5,7 @@ import SearchIcon from '@material-ui/icons/Search';
 export default function Search(props) {
     const handleClick = () => {
         console.log('clicked');
-        props.onClick('error', 'test');
+        props.onClick('info', 'The search button is just a placeholder for now');
     }
 
     return(

@@ -8,12 +8,11 @@ export default async function getAll(startId=0) {
             const unixEpoch = new Date(post.time);
 
             post['pfColor'] = ['red', 'green', 'blue', 'cyan'][Math.floor(Math.random() * 4)];
-            console.log(post.pfColor);
             post.time = unixEpoch.toLocaleDateString();
         })
         return response.data;
     } catch(error) {
-        console.log(`Unexpected error occurred posting: ${error}`);
+        console.log(`Unexpected error occurred getting: ${error}`);
         throw Error;
     }
 }

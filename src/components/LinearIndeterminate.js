@@ -5,6 +5,9 @@ import LinearProgress from '@material-ui/core/LinearProgress';
 const useStyles = makeStyles((theme) => ({
   root: {
     width: '100%',
+    position: 'absolute',
+    left: '50%',
+    transform: 'translate(-50%)',
     '& > * + *': {
       marginTop: theme.spacing(2),
     },

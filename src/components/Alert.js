@@ -23,7 +23,6 @@ export default function Alert(props) {
   const handleClose = (event, reason) => {
     // setOpen(false);
     props.onClose();
-    console.log('closed');
   };
 
   return (

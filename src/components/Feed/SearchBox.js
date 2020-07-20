@@ -2,8 +2,10 @@ import React from 'react';
 import { TextField } from '@material-ui/core';
 
 export default function SearchBox(props) {
+    const [searchString, setSearchString] = React.useState('');
+
     const handleSearchChange = (event) => {
-        props.onChange(event.target.value ? event.target.value : '');
+        setSearchString(event.target.value);
     }
 
      return(
@@ -13,6 +15,7 @@ export default function SearchBox(props) {
         margin="normal"
         onChange={handleSearchChange}
         variant="outlined"
+        fullWidth
         />
      )
 }

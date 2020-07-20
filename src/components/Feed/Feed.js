@@ -7,9 +7,11 @@ import getAll from '../databaseManagement/getAll';
 import GetMore from './GetMore';
 import RefreshButton from './RefreshButton';
 import { withStyles } from '@material-ui/core/styles';
-import Search from './Search';
+import SearchButton from './SearchButton';
 import SearchBox from './SearchBox';
 import Alert from '../Alert';
+import InlineCreatePost from './InlineCreatePost';
+import CircularIndeterminate from '../CircularIndeterminate';
 
 const styles = theme => ({
     inlineButton: {
@@ -29,11 +31,11 @@ const styles = theme => ({
     inlineSearch: {
         '& > *': {
             display: "inline",
-            marginLeft: theme.spacing(3),
-            marginTop: theme.spacing(3),
-            marginBottom: theme.spacing(3),
-        }
+        },
     },
+    post: {
+        padding: theme.spacing(2)
+    }
 })
 
 class Feed extends Component {
@@ -43,6 +45,7 @@ class Feed extends Component {
         morePoststoFetch: true,
         errorFetching: false,
         searchString: '',
+        loadingNewPosts: false,
         notificationActive: {
             isActive: false,
             notifContent: '',
@@ -73,11 +76,13 @@ class Feed extends Component {
     }
     handleRefresh = () => {
         this.setState({ posts: [] });
+        this.setState({ morePoststoFetch: true });
 
         this.getPosts();
     }
     handleGetMorePosts = async (startId) => {
         try {
+            this.setState({ loadingNewPosts: true })
             const newPosts = await getAll(startId);
 
             if (newPosts.length >= 21) {
@@ -86,8 +91,10 @@ class Feed extends Component {
                 this.setState({ morePoststoFetch: false });
             }
             this.setState({ posts: [...this.state.posts, ...newPosts] });
+            this.setState({ loadingNewPosts: false });
         } catch {
             console.log('error occurred fetching');
+            this.handleNotification('error', 'Error fetching more posts');
             this.setState({ errorFetching: true });
         }
     }
@@ -95,7 +102,6 @@ class Feed extends Component {
         this.setState({ searchString: searchString });
     }
     handleSearch = async () => {
-        console.log(this.state.searchString);
         this.handleNotification('error', 'test');
     }
     handleNotification = async (variant, message, timeout=3000) => {
@@ -133,23 +139,63 @@ class Feed extends Component {
                 </Alert>
                 { this.state.posts && this.state.posts.length > 0 ? (
                     <div>
-                        <div className={classes.inlineSearch}>
+                        {/* <div className={classes.inlineSearch}>
                             <SearchBox onChange={this.onSearchInputChange} />
                             <Search onClick={this.handleNotification} />
-                        </div>
-                        <div className={classes.inlineButton}>
+                            <RefreshButton handleRefresh={this.handleRefresh} component="div" color="primary" />
+                        </div> */}
+                        {/* <div className={classes.inlineButton}>
                         <CreatePost 
                          refreshPage={this.handleRefresh} 
                          component="div" display="inline" 
                          pushNotification={this.handleNotification} 
                          causeLoading={this.causeLoading}
                          />
-                        <RefreshButton handleRefresh={this.handleRefresh} component="div" display="inline" color="primary" />
-                        </div>
-                        <Grid container spacing={4} style={{padding: 24}}>
+
+                        </div> */}
+                        <Grid container spacing={2} style={{padding: 24}} justify='center'>
+                            <Grid item xs={12} xl={5}>
+                                <Grid container spacing={2}>
+                                    <Grid item xs xl={9}>
+                                        <SearchBox onChange={this.onSearchInputChange} />
+                                    </Grid>
+                                    <Grid item xs xl={3}>
+                                        <div className={classes.inlineSearch} style={{paddingTop: 20}}>
+                                                <SearchButton onClick={this.handleNotification} />
+                                                <RefreshButton handleRefresh={this.handleRefresh} component="div" color="primary" />
+                                        </div>
+                                    </Grid>
+                                </Grid>
+                                {/* <Card variant="outlined">
+                                    <CardContent>
+                                        <Grid container spacing={2} style={{paddingLeft: 12}}>
+                                            <Grid container xs xl={8}>
+                                                <SearchBox onChange={this.onSearchInputChange} />
+                                            </Grid>
+                                        </Grid>
+                                    </CardContent>
+                                </Card> */}
+                            </Grid>
+                            {/* <Grid item xs xl={2}>
+                                <Card variant="outlined">
+                                    <CardContent>
+                                        <div className={classes.inlineSearch}>
+                                            <Search onClick={this.handleNotification} />
+                                            <RefreshButton handleRefresh={this.handleRefresh} component="div" color="primary" />
+                                        </div>
+                                    </CardContent>
+                                </Card>
+                            </Grid> */}
+                            <Grid item xs xl={8} />
+                            <Grid item xs={12} xl={5}>
+                                <InlineCreatePost />
+                            </Grid>
+                            <Grid item xs={12} xl={8} />
                             { 
+                                /* sm={6} lg={4}*/
                                 this.state.posts.map(currentPost => (
-                                    <Grid item xs={12} sm={6} lg={4} xl={3}>
+                                    <Fragment>
+                                    <Grid item xs={12} xl={5} className={classes.post}>
                                         <Post 
                                         post={
                                             {
@@ -163,12 +209,24 @@ class Feed extends Component {
                                         pushNotification={this.handleNotification}
                                         />
                                     </Grid>
+                                    <Grid item xl={8} />
+                                    </Fragment>
                                 ))
                             }
                         </Grid>
                         {
                             this.state.morePoststoFetch
-                             ? <GetMore startId={this.state.posts[this.state.posts.length - 1].id} getMorePosts={this.handleGetMorePosts} />
+                             ? this.state.loadingNewPosts
+                                 ? <CircularIndeterminate />
+                                 : (
+                                <>
+                                    <GetMore 
+                                    startId={this.state.posts[this.state.posts.length - 1].id} 
+                                    getMorePosts={this.handleGetMorePosts} 
+                                    causeLoading={this.loadMorePostsLoading}
+                                    />
+                                </>
+                                )
                              : <Typography variant="body1" align='center' className={classes.reachedTheEnd}>You've reached the end</Typography>
                         }
                     </div>
@@ -178,8 +236,8 @@ class Feed extends Component {
                              ? (
                                  <div className={classes.errorFetching}>
                                     <Fragment>
-                                    <Typography variant="inherit">Unexpected error occurred. Maybe try reloading?</Typography>
-                                    <RefreshButton handleRefresh={this.handleRefresh} />
+                                        <Typography variant="inherit">Unexpected error occurred. Maybe try reloading?</Typography>
+                                        <RefreshButton handleRefresh={this.handleRefresh} />
                                     </Fragment>
                                  </div>
                                )

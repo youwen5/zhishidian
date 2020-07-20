@@ -7,11 +7,10 @@ import getAll from '../databaseManagement/getAll';
 import GetMore from './GetMore';
 import RefreshButton from './RefreshButton';
 import { withStyles } from '@material-ui/core/styles';
-import SearchButton from './SearchButton';
-import SearchBox from './SearchBox';
+import UpperActions from './UpperActions';
 import Alert from '../Alert';
 import InlineCreatePost from './InlineCreatePost';
-import CircularIndeterminate from '../CircularIndeterminate';
+import CircularIndeterminate from './CircularIndeterminate';
 
 const styles = theme => ({
     inlineButton: {
@@ -98,9 +97,6 @@ class Feed extends Component {
             this.setState({ errorFetching: true });
         }
     }
-    onSearchInputChange = (searchString) => {
-        this.setState({ searchString: searchString });
-    }
     handleSearch = async () => {
         this.handleNotification('error', 'test');
     }
@@ -125,6 +121,9 @@ class Feed extends Component {
     causeLoading = async () => {
         this.setState({ posts: [] });
     }
+    updatePosts = async (newPosts) => {
+        this.setState({ posts: newPosts });
+    }
     render() {
         const { classes } = this.props;
 
@@ -139,56 +138,20 @@ class Feed extends Component {
                 </Alert>
                 { this.state.posts && this.state.posts.length > 0 ? (
                     <div>
-                        {/* <div className={classes.inlineSearch}>
-                            <SearchBox onChange={this.onSearchInputChange} />
-                            <Search onClick={this.handleNotification} />
-                            <RefreshButton handleRefresh={this.handleRefresh} component="div" color="primary" />
-                        </div> */}
-                        {/* <div className={classes.inlineButton}>
-                        <CreatePost 
-                         refreshPage={this.handleRefresh} 
-                         component="div" display="inline" 
-                         pushNotification={this.handleNotification} 
-                         causeLoading={this.causeLoading}
-                         />
-
-                        </div> */}
                         <Grid container spacing={2} style={{padding: 24}} justify='center'>
                             <Grid item xs={12} xl={5}>
-                                <Grid container spacing={2}>
-                                    <Grid item xs xl={9}>
-                                        <SearchBox onChange={this.onSearchInputChange} />
-                                    </Grid>
-                                    <Grid item xs xl={3}>
-                                        <div className={classes.inlineSearch} style={{paddingTop: 20}}>
-                                                <SearchButton onClick={this.handleNotification} />
-                                                <RefreshButton handleRefresh={this.handleRefresh} component="div" color="primary" />
-                                        </div>
-                                    </Grid>
-                                </Grid>
-                                {/* <Card variant="outlined">
-                                    <CardContent>
-                                        <Grid container spacing={2} style={{paddingLeft: 12}}>
-                                            <Grid container xs xl={8}>
-                                                <SearchBox onChange={this.onSearchInputChange} />
-                                            </Grid>
-                                        </Grid>
-                                    </CardContent>
-                                </Card> */}
+                                <UpperActions 
+                                causeReload={this.handleRefresh} 
+                                pushNotification={this.handleNotification}
+                                updatePosts={this.updatePosts}
+                                />
                             </Grid>
-                            {/* <Grid item xs xl={2}>
-                                <Card variant="outlined">
-                                    <CardContent>
-                                        <div className={classes.inlineSearch}>
-                                            <Search onClick={this.handleNotification} />
-                                            <RefreshButton handleRefresh={this.handleRefresh} component="div" color="primary" />
-                                        </div>
-                                    </CardContent>
-                                </Card>
-                            </Grid> */}
                             <Grid item xs xl={8} />
                             <Grid item xs={12} xl={5}>
-                                <InlineCreatePost />
+                                <InlineCreatePost
+                                causeReload={this.handleRefresh}
+                                causeLoading={this.causeLoading}
+                                />
                             </Grid>
                             <Grid item xs={12} xl={8} />
                             { 

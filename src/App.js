@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import './App.css';
 import MenuNavBar from './components/Navbar';
 import Feed from './components/Feed/Feed'
-import Profile from './components/testProfile';
+import Profile from './components/Profile/Profile';
 import PageNotFound from './components/PageNotFound';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 

@@ -86,7 +86,7 @@ const CreatePost = (props) => {
     }
 
     const handlePostCreation = async () => {
-        const whiteSpaceRegex = /\s/g
+        const whiteSpaceRegex = /\s/g;
 
         if (!title
              || !content

@@ -15,7 +15,6 @@ export default function GetMore(props) {
 
     const handleClick = () => {
         props.getMorePosts(props.startId);
-        console.log(props.startId);
     }
 
     return(

@@ -99,12 +99,16 @@ export default function RecipeReviewCard(props) {
   const classes = useStyles();
 
   const [expanded, setExpanded] = React.useState(false);
-  const [showPreview, setShowPreview] = React.useState(true);
+  const [showFullContent, setShowFullContent] = React.useState(false);
 
   const handleExpandClick = () => {
     setExpanded(!expanded);
-    setShowPreview(!showPreview);
+    setShowFullContent(true);
   };
+
+  const handleFinishClosing = () => {
+    setShowFullContent(false);
+  }
 
   const readingTime = (text) => {
     const wordsPerMinute = 100;
@@ -156,16 +160,20 @@ export default function RecipeReviewCard(props) {
           </IconButton>
         }
         title={props.post.title}
-        subheader={`By: ${props.post.author}`}
+        subheader={`Author: ${props.post.author}`}
       />
-      <CardContent>
-        <Typography variant="body2" component="p" color={showPreview ? 'textPrimary' : 'textSecondary'}>
-          { props.post.content.length > 100
-             ? `${props.post.content.substring(0, 100)}...`
-             : props.post.content
-          }
-        </Typography>
-      </CardContent>
+      <Collapse in={expanded} timeout='auto' collapsedHeight='75px' onExited={handleFinishClosing}>
+        <CardContent>
+          <Typography variant="body2" component="p" color='textPrimary'>
+            { showFullContent
+               ? props.post.content
+               : (props.post.content.length > 150
+                  ? `${props.post.content.substring(0, 150)}...`
+                  : props.post.content)
+            }
+          </Typography>
+        </CardContent>
+      </Collapse>
       <CardActions disableSpacing>
         {/* <IconButton aria-label="add to favorites">
           <FavoriteIcon />
@@ -184,7 +192,7 @@ export default function RecipeReviewCard(props) {
           </Typography>
         </CardContent>
         </div>
-        { props.post.content.length > 100
+        { props.post.content.length > 150
          ? (
         <IconButton
           className={clsx(classes.expand, {
@@ -200,11 +208,11 @@ export default function RecipeReviewCard(props) {
         ) : null }
         </Fragment>
       </CardActions>
-      <Collapse in={expanded} timeout="auto" unmountOnExit>
+      {/* <Collapse in={expanded} timeout="auto" unmountOnExit>
         <CardContent>
           <Typography paragraph>{ props.post.content }</Typography>
         </CardContent>
-      </Collapse>
+      </Collapse> */}
     </Card>
     ) : null }
     </div>

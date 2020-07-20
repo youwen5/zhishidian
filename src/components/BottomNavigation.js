@@ -2,8 +2,9 @@ import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import BottomNavigation from '@material-ui/core/BottomNavigation';
 import BottomNavigationAction from '@material-ui/core/BottomNavigationAction';
-import AccountCircleIcon from '@material-ui/icons/AccountCircle';
 import DynamicFeedIcon from '@material-ui/icons/DynamicFeed';
+import AccountCircleIcon from '@material-ui/icons/AccountCircle';
+import AssignmentIcon from '@material-ui/icons/Assignment';
 import { Link, useLocation } from 'react-router-dom';
 import { Grid } from '@material-ui/core';
 
@@ -46,6 +47,7 @@ export default function SimpleBottomNavigation() {
         >
         <BottomNavigationAction component={Link} to="/" value="/" label="Feed" icon={<DynamicFeedIcon />} />
         <BottomNavigationAction component={Link} to="/profile" value="/profile" label="Profile" icon={<AccountCircleIcon />} />
+        <BottomNavigationAction component={Link} label="Assignments" icon={<AssignmentIcon />} />
         </BottomNavigation>
     </div>
     </Grid>

@@ -2,8 +2,8 @@ import React, { Component, Fragment } from 'react';
 import { Grid, Typography } from '@material-ui/core';
 import LinearIndeterminate from '../LinearIndeterminate';
 import Post from './Post';
-import CreatePost from './CreatePost.js';
 import getAll from '../databaseManagement/getAll';
+import queryItem from '../databaseManagement/queryItem';
 import GetMore from './GetMore';
 import RefreshButton from './RefreshButton';
 import { withStyles } from '@material-ui/core/styles';
@@ -11,6 +11,7 @@ import UpperActions from './UpperActions';
 import Alert from '../Alert';
 import InlineCreatePost from './InlineCreatePost';
 import CircularIndeterminate from './CircularIndeterminate';
+import history from '../history';
 
 const styles = theme => ({
     inlineButton: {
@@ -59,8 +60,25 @@ class Feed extends Component {
     }
     getPosts = async () => {
         try {
-            const response = await getAll();
-            this.setState({ posts: response });
+            let requestType;
+            let response;
+
+            if (history.location.search) {
+                response = await queryItem(history.location.search.split('=')[1].replace(/%20/g, ' '));
+                requestType = 'query';
+            } else {
+                response = await getAll();
+                requestType='getAll';
+            }
+
+            if (response.length) {
+                this.setState({ posts: response });
+            } else if (requestType === 'query') {
+                response = await getAll();
+                this.setState({ posts: response });
+                this.handleNotification('warning', 'No results found for that search');
+            }
+
             if (this.state.errorFetching) {
                 this.setState({ errorFetching: false });
             }
@@ -82,8 +100,10 @@ class Feed extends Component {
     handleGetMorePosts = async (startId) => {
         try {
             this.setState({ loadingNewPosts: true })
-            const newPosts = await getAll(startId);
-
+            const newPosts = history.location.search
+            ? await queryItem(history.location.search.split('=')[1].replace(/%20/g, ' '), startId)
+            : await getAll(startId);
+            
             if (newPosts.length >= 21) {
                 newPosts.pop();
             } else {
@@ -144,6 +164,8 @@ class Feed extends Component {
                                 causeReload={this.handleRefresh} 
                                 pushNotification={this.handleNotification}
                                 updatePosts={this.updatePosts}
+                                getCurrentPosts={() => this.state.posts}
+                                getNewPosts={this.getPosts}
                                 />
                             </Grid>
                             <Grid item xs xl={8} />

@@ -97,18 +97,18 @@ export default function InlineCreatePost(props) {
                         onChange={handleTitleInputChange}
                         defaultValue={title}
                         error={titleErrored}
-                        helperText={titleErrored ? 'Title cannot just be whitespace' : null}
+                        helperText={titleErrored ? 'Title cannot be only whitespace' : null}
                     />
                     <TextField
                         fullWidth
                         id="author"
                         margin='dense'
                         label='Author'
-                        variant='filled'
+                        variant='filled'    
                         onChange={handleAuthorInputChange}
                         defaultValue={author}
                         error={authorErrored}
-                        helperText={authorErrored ? 'Author cannot just be whitespace' : null}
+                        helperText={authorErrored ? 'Author cannot be only whitespace' : null}
                     />
                     </>
                     ) : null }
@@ -123,7 +123,7 @@ export default function InlineCreatePost(props) {
                         rows={showTitleInput ? 12 : 2}
                         onChange={handleContentInputChange}
                         error={contentErrored}
-                        helperText={contentErrored ? 'Content cannot just be whitespace' : null}
+                        helperText={contentErrored ? 'Content cannot be only whitespace' : null}
                     />
                     { showTitleInput
                     ? (

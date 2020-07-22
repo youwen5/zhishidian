@@ -26,7 +26,7 @@ class Profile extends Component {
                     <ProfileDetails />
                 </Grid>
             </Grid>
-        )
+        );
     }
 }
 

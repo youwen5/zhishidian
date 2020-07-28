@@ -10,15 +10,10 @@ import { withStyles } from '@material-ui/core/styles';
 import UpperActions from './UpperActions';
 import Alert from '../Alert';
 import InlineCreatePost from './InlineCreatePost';
-import CircularIndeterminate from './CircularIndeterminate';
+import CircularIndeterminate from '../CircularIndeterminate';
 import history from '../history';
 
 const styles = theme => ({
-    inlineButton: {
-        '& > *': {
-            display: "inline"
-        },
-    },
     errorFetching: {
         '& > *': {
             margin: theme.spacing(2)
@@ -51,7 +46,8 @@ class Feed extends Component {
             notifContent: '',
             notifType: '',
             timeout: 3000
-        }
+        },
+        requestType: ''
     }
     constructor() {
         super();
@@ -60,20 +56,19 @@ class Feed extends Component {
     }
     getPosts = async () => {
         try {
-            let requestType;
             let response;
 
             if (history.location.search) {
                 response = await queryItem(history.location.search.split('=')[1].replace(/%20/g, ' '));
-                requestType = 'query';
+                this.setState({ requestType: 'query' });
             } else {
                 response = await getAll();
-                requestType='getAll';
+                this.setState({ requestType: 'getAll' });
             }
 
             if (response.length) {
                 this.setState({ posts: response });
-            } else if (requestType === 'query') {
+            } else if (this.state.requestType === 'query') {
                 response = await getAll();
                 this.setState({ posts: response });
                 this.handleNotification('warning', 'No results found for that search');
@@ -117,9 +112,6 @@ class Feed extends Component {
             this.setState({ errorFetching: true });
         }
     }
-    handleSearch = async () => {
-        this.handleNotification('error', 'test');
-    }
     handleNotification = async (variant, message, timeout=3000) => {
         const params = {
             isActive: true,
@@ -144,6 +136,15 @@ class Feed extends Component {
     updatePosts = async (newPosts) => {
         this.setState({ posts: newPosts });
     }
+    clearQueryStrings = async () => {
+        try {
+            history.push({
+                search: ``
+            });
+        } catch(error) {
+            console.log(error);
+        }
+    }
     render() {
         const { classes } = this.props;
 
@@ -159,28 +160,32 @@ class Feed extends Component {
                 { this.state.posts && this.state.posts.length > 0 ? (
                     <div>
                         <Grid container spacing={2} style={{padding: 24}} justify='center'>
-                            <Grid item xs={12} xl={5}>
+                            <Grid item xs={12} xl={5} lg={5} md={5} sm={5}>
                                 <UpperActions 
                                 causeReload={this.handleRefresh} 
                                 pushNotification={this.handleNotification}
                                 updatePosts={this.updatePosts}
                                 getCurrentPosts={() => this.state.posts}
                                 getNewPosts={this.getPosts}
+                                requestType={this.state.requestType}
                                 />
                             </Grid>
-                            <Grid item xs xl={8} />
-                            <Grid item xs={12} xl={5}>
+                            <Grid item xs xl={8} lg={8} md={8} sm={8} />
+                            <Grid item xs={12} xl={5} lg={5} md={5} sm={5}>
                                 <InlineCreatePost
                                 causeReload={this.handleRefresh}
                                 causeLoading={this.causeLoading}
+                                clearQueryStrings={this.clearQueryStrings}
+                                pushNotification={this.handleNotification}
+                                username={this.props.username}
                                 />
                             </Grid>
-                            <Grid item xs={12} xl={8} />
+                            <Grid item xs={12} xl={8} md={8} sm={8} />
                             { 
                                 /* sm={6} lg={4}*/
                                 this.state.posts.map(currentPost => (
                                     <Fragment>
-                                    <Grid item xs={12} xl={5} className={classes.post}>
+                                    <Grid item xs={12} xl={5} md={5} sm={5} className={classes.post}>
                                         <Post 
                                         post={
                                             {
@@ -194,7 +199,7 @@ class Feed extends Component {
                                         pushNotification={this.handleNotification}
                                         />
                                     </Grid>
-                                    <Grid item xl={8} />
+                                    <Grid item xl={8} md={8} sm={8} />
                                     </Fragment>
                                 ))
                             }

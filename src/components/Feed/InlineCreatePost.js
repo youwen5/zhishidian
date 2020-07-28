@@ -26,12 +26,10 @@ export default function InlineCreatePost(props) {
 
     const [title, setTitle] = useState('');
     const [content, setContent] = useState('');
-    const [author, setAuthor] = useState('');   // placeholder for author
     const [expanded, setExpanded] = useState(false);
     const [showTitleInput, setShowTitleInput] = useState(false);
     const [titleErrored, setTitleErrored] = useState(false);
     const [contentErrored, setContentErrored] = useState(false);
-    const [authorErrored, setAuthorErrored] = useState(false);
 
     const handleContentInputChange = (event) => {
         setContent(event.target.value);
@@ -49,11 +47,6 @@ export default function InlineCreatePost(props) {
         setTitle(event.target.value);
         setTitleErrored(false);
     }
-    
-    const handleAuthorInputChange = (event) => {
-        setAuthor(event.target.value);
-        setAuthorErrored(false);
-    }
 
     const handleFinishAnimation = () => {
         setShowTitleInput(false);
@@ -65,13 +58,19 @@ export default function InlineCreatePost(props) {
     }
 
     const handleCreatePost = async () => {
-        if (whiteSpaceCheck(title) && whiteSpaceCheck(author) && whiteSpaceCheck(content)) {
-            props.causeLoading();
-            await postItem(title, author, content);
-            props.causeReload();
+        if (whiteSpaceCheck(title) && whiteSpaceCheck(content)) {
+            try {
+                props.causeLoading();
+                await postItem(title, props.username, content);
+                props.causeReload();
+                props.clearQueryStrings();
+                props.pushNotification('success', 'Post created successfully');
+            } catch(error) {
+                console.log(`Error occurred posting: ${error}`);
+                props.pushNotification('error', 'Error occurred creating post');
+            }
         } else {
             !whiteSpaceCheck(title) ? setTitleErrored(true) : setTitleErrored(false);
-            !whiteSpaceCheck(author) ? setAuthorErrored(true) : setAuthorErrored(false);
             !whiteSpaceCheck(content) ? setContentErrored(true) : setContentErrored(false);
         }
 
@@ -98,17 +97,6 @@ export default function InlineCreatePost(props) {
                         defaultValue={title}
                         error={titleErrored}
                         helperText={titleErrored ? 'Title cannot be only whitespace' : null}
-                    />
-                    <TextField
-                        fullWidth
-                        id="author"
-                        margin='dense'
-                        label='Author'
-                        variant='filled'    
-                        onChange={handleAuthorInputChange}
-                        defaultValue={author}
-                        error={authorErrored}
-                        helperText={authorErrored ? 'Author cannot be only whitespace' : null}
                     />
                     </>
                     ) : null }
@@ -142,7 +130,7 @@ export default function InlineCreatePost(props) {
                                 </Typography>
                             </div>
                             <div>
-                                <Button color="inherit" disabled={!title || !content || !author ? true : false} onClick={handleCreatePost}>
+                                <Button color="inherit" disabled={!title || !content ? true : false} onClick={handleCreatePost}>
                                     Create
                                 </Button>
                             </div>

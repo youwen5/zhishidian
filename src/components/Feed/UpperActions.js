@@ -6,6 +6,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import queryItem from '../databaseManagement/queryItem';
 import history from '../history';
 import ClearSearch from './ClearSearch';
+import { useHistory } from 'react-router-dom';
 
 const useStyles = makeStyles({
     root: {
@@ -15,6 +16,7 @@ const useStyles = makeStyles({
 
 export default function UpperActions(props) {
     const classes = useStyles();
+    const routerHistory = useHistory();
 
     const [searchString, setSearchString] = React.useState(history.location.search ? history.location.search.split('=')[1].replace(/%20/g, ' ') : null);
 
@@ -29,7 +31,8 @@ export default function UpperActions(props) {
             props.updatePosts([]);
 
             history.push({
-                search: `?search=${searchString}`
+                search: `?search=${searchString}`,
+                pathname: routerHistory.location.pathname
             });
 
             try {           
@@ -52,9 +55,11 @@ export default function UpperActions(props) {
         props.updatePosts([]);
 
         setSearchString('');
+
         try {
             history.push({
-                search: ``
+                search: ``,
+                pathname: routerHistory.location.pathname
             });
             props.getNewPosts();
         } catch(error) {
@@ -62,10 +67,28 @@ export default function UpperActions(props) {
         }
     }
 
+    React.useEffect(() => {
+        return routerHistory.listen(location => {
+            if (location.pathname.slice(-1) === '/' && location.pathname.length > 1) {
+                location.pathname = location.pathname.substring(0, location.pathname.length - 1);
+            }
+
+            if (location.pathname !== '/') {
+                history.push({
+                    search: ``,
+                    pathname: routerHistory.location.pathname
+                });
+
+                setSearchString('');
+            } 
+        });
+    }, [routerHistory]);
+
+
     return(
         <>
             <Grid container className={classes.root}>
-                <Grid item xs xl={9}>
+                <Grid item xs={7} xl={9} lg={9} md={9}>
                     <TextField
                     id="searchInput"
                     placeholder="Search"   
@@ -73,17 +96,22 @@ export default function UpperActions(props) {
                     onChange={handleSearchChange}
                     variant="outlined"
                     fullWidth
-                    defaultValue={history.location.search ? history.location.search.split('=')[1].replace(/%20/g, ' ') : null}
+                    defaultValue={searchString}
+                    onKeyPress={e => {
+                        if (e.key === 'Enter') {
+                            handleSearchPressed();
+                        }
+                    }}
                     />
                 </Grid>
-                <Grid item xs xl={2} style={{paddingTop: 20, paddingLeft: 2}}>
+                <Grid item xs={2} xl={2} md={2} lg={2} style={{paddingTop: 20, paddingLeft: 2}}>
                     <SearchButton onClick={handleSearchPressed} />
                     { history.location.search
                         ? <ClearSearch onClick={handleClearSearch} />
                         : null
                     }
                 </Grid>
-                <Grid item xs xl={1} style={{paddingTop: 20}}>
+                <Grid item xs={2} xl={1} md={1} lg={1} style={{paddingTop: 20}}>
                     <RefreshButton handleRefresh={props.causeReload} />
                 </Grid>
             </Grid>

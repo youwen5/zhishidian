@@ -35,9 +35,10 @@ export default function DesktopLogin(props) {
                     margin="dense"
                     id="username"
                     label='Username'
-                    type="username"
+                    type='text'
                     onChange={handleUsernameChange}
                     autoFocus
+                    disabled={props.disable}
                 />
             </Grid>
             <Grid item xs={12} xl={10} sm={12} md={10} lg={10}>
@@ -49,6 +50,7 @@ export default function DesktopLogin(props) {
                     label='Password'
                     type="password"
                     onChange={handlePasswordChange}
+                    disabled={props.disable}
                     onKeyPress={e => {
                         if (e.key === 'Enter') {
                             handleLoginAttempt();
@@ -62,6 +64,7 @@ export default function DesktopLogin(props) {
                     style={{marginTop: -4}}
                     size='small'
                     variant='outlined'
+                    disabled={props.disable}
                 >
                     Create Account
                 </Button>
@@ -74,6 +77,7 @@ export default function DesktopLogin(props) {
                     variant='contained'
                     color='primary'
                     onClick={handleLoginAttempt}
+                    disabled={props.disable}
                 >
                     Next
                 </Button>

@@ -12,19 +12,10 @@ const useStyles = makeStyles(theme => ({
 
 export default function LoadingScreen(props) {
     const classes = useStyles();
-    const [open, setOpen] = React.useState(props.open);
-    
-    const handleClose = () => {
-        setOpen(false);
-    }
-    
-    const handleToggle = () => {
-        setOpen(!open);
-    }
 
     return(
         <div>
-            <Backdrop className={classes.backdrop} open={open} onClick={handleClose}>
+            <Backdrop className={classes.backdrop} open={props.open}>
                 <CircularProgress color="inherit" />
             </Backdrop>
         </div>

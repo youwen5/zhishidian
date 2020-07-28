@@ -17,11 +17,12 @@ body {
   overflow-y: hidden;
 }
 
-html, body {
-  max-width: 100%;
+html {
+  overflow-y: visible;
   overflow-x: hidden;
 }
 
-html {
-  overflow-y: overlay;
+body {
+  overflow-y: hidden;
+  overflow-x: hidden;
 }

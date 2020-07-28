@@ -17,39 +17,35 @@ const useStyles = makeStyles({
     position: "absolute",
     top: '10%',
     left: "50%",
-    transform: "translateY(-50%)",
-    // eslint-disable-next-line
-    transform: "translateX(-50%)",
+    transform: "translate(-50%)",
     backgroundColor: "transparent"
   },
   
 });
 
-export default function SimpleBottomNavigation() {
+export default function SimpleBottomNavigation(props) {
   const classes = useStyles();
   // const [value, setValue] = React.useState(0);
   let location = useLocation();
   
-  if (location.pathname.slice(-1) === '/' && location.pathname.length > 1) {
-    location.pathname = location.pathname.substring(0, location.pathname.length - 1)
-  }
+  let navPathname = location.pathname.slice();
+
+  navPathname = navPathname.split('/')[1];
 
   return (
-    <Grid container>
+    props.isAuthenticated
+    ? (
     <div>
         <BottomNavigation
-        value={location.pathname}
-        // onChange={(event, newValue) => {
-        //   setValue(newValue);
-        // }}
+        value={navPathname}
         showLabels
         className={classes.root}
         >
-        <BottomNavigationAction component={Link} to="/" value="/" label="Feed" icon={<DynamicFeedIcon />} />
-        <BottomNavigationAction component={Link} to="/profile" value="/profile" label="Profile" icon={<AccountCircleIcon />} />
-        <BottomNavigationAction component={Link} label="Assignments" icon={<AssignmentIcon />} />
+          <BottomNavigationAction component={Link} to="/feed" value="feed" label="Feed" icon={<DynamicFeedIcon />} />
+          <BottomNavigationAction component={Link} to="/profile" value="profile" label="Profile" icon={<AccountCircleIcon />} />
+          <BottomNavigationAction component={Link} to="/assignments" value="assignments" label="Assignments" icon={<AssignmentIcon />} />
         </BottomNavigation>
     </div>
-    </Grid>
+    ) : null
   );
 }

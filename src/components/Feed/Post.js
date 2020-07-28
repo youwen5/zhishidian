@@ -164,7 +164,7 @@ export default function RecipeReviewCard(props) {
       />
       <Collapse in={expanded} timeout='auto' collapsedHeight='75px' onExited={handleFinishClosing}>
         <CardContent>
-          <Typography variant="body2" component="p" color='textPrimary'>
+          <Typography variant="body2" component="p" color='textPrimary' style={{wordWrap: 'break-word'}}>
             { showFullContent
                ? props.post.content
                : (props.post.content.length > 150

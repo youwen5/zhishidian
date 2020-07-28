@@ -94,9 +94,11 @@ class Login extends React.Component {
                     { this.props.width > 600
                      ? <DesktopLogin 
                          authenticate={this.authenticate}
+                         disable={this.state.loadingActive}
                      />
                      : <MobileLogin 
                          authenticate={this.authenticate}
+                         disable={this.state.loadingActive}
                      /> }
                 </Grid>
             </Grid>

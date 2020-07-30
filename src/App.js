@@ -5,6 +5,7 @@ import Feed from './components/Feed/Feed'
 import Profile from './components/Profile/Profile';
 import PageNotFound from './components/PageNotFound';
 import { BrowserRouter as Router, Route, Switch, Redirect } from 'react-router-dom';
+import Signup from './components/Signup/Signup';
 import Login from './components/Login/Login';
 
 class App extends Component {
@@ -14,7 +15,8 @@ class App extends Component {
       isAuthenticated: false,
       width: 0, 
       height: 0,
-      username: ''
+      username: '',
+      userid: undefined
     };
     this.props = props;
     this.updateWindowDimensions = this.updateWindowDimensions.bind(this);
@@ -32,8 +34,10 @@ class App extends Component {
   updateAuthentication = async () => {
     this.setState({ isAuthenticated: !this.state.isAuthenticated });
   }
-  storeUserCreds = (username) => {
+  storeUserCreds = (username, userid) => {
     this.setState({ username: username });
+    this.setState({ userid: userid });
+
   }
   render() {
     return (
@@ -45,7 +49,7 @@ class App extends Component {
           <Switch>
             <Redirect from="/" to="/feed" exact />
             <Redirect from="/profile" to={`/profile/${this.state.username}`} exact />
-            <Route 
+            <Route
               path="/login" 
               exact 
               render={() => (
@@ -58,10 +62,22 @@ class App extends Component {
                   />
                 ) : <Redirect to='/feed' />
               )}
-              />
+            />
+            <Route
+            path="/signup" 
+            exact 
+            render={() => (
+            !this.state.isAuthenticated
+              ? (
+                <Signup
+                  width={this.state.width}
+                />
+              ) : <Redirect to='/feed' />
+            )}
+            />
             <Route path='/feed' exact render={() => (
               this.state.isAuthenticated === true
-                ? <Feed username={this.state.username} />
+                ? <Feed username={this.state.username} userid={this.state.userid} />
                 : <Redirect to='/login' />
             )} 
             />

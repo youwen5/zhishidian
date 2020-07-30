@@ -61,7 +61,7 @@ export default function InlineCreatePost(props) {
         if (whiteSpaceCheck(title) && whiteSpaceCheck(content)) {
             try {
                 props.causeLoading();
-                await postItem(title, props.username, content);
+                await postItem(title, props.username, content, props.userid);
                 props.causeReload();
                 props.clearQueryStrings();
                 props.pushNotification('success', 'Post created successfully');

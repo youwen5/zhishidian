@@ -2,20 +2,37 @@ import axios from 'axios';
 const config = require('./config.json');
 
 export default async function authUser(username, password) {
+    let authFailed = false;
+
     try {
         const params = new URLSearchParams({
             username: username,
             password: password
         });
 
+        const UNAUTHORIZED = 401;
+        axios.interceptors.response.use(
+        response => response,
+        error => {
+            const {status} = error.response;
+            if (status === UNAUTHORIZED) {
+                authFailed = true;
+            }
+            return Promise.reject(error);
+        }
+        );
+
         const url = `${config.api.invokeUrl}/users/?${params.toString()}`;
 
-        const response = await axios.get(url);
+        const res = await axios.get(url);
 
-        return response.data;
+        return authFailed ? [{statusCode: 401}] : res.data;
     } catch(error) {
-        console.log(`Unexpected error occurred querying: ${error}`);
-        throw Error;
+        if (authFailed) {
+            return ([{statusCode: 401}]);
+        } else {
+            throw error;
+        }
     }
 }
 

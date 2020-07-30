@@ -27,7 +27,8 @@ class Login extends React.Component {
                 notifType: '',
                 timeout: 3000
             },
-            loadingActive: false
+            loadingActive: false,
+            retryAttempts: 0
         }
     }
     authenticate = async (username, password) => {
@@ -47,8 +48,13 @@ class Login extends React.Component {
                     this.props.storeCreds(username, response[0].user_id);
                 }
             } catch(error) {  
-                this.handleNotification('error', 'Unexpected error occurred, try again');
-                this.setState({ loadingActive: false });
+                if (this.state.retryAttempts < 5) {
+                    this.authenticate(username, password);
+                    this.setState({ retryAttempts: this.state.retryAttempts + 1 });
+                } else {
+                    this.handleNotification('error', 'Unexpected error occurred, try again');
+                    this.setState({ loadingActive: false });
+                }
                 console.log(`authentication failed with ${error}`);
             }
         }

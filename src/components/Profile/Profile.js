@@ -3,12 +3,13 @@ import ProfileDetails from './ProfileDetails';
 import { Grid, Typography } from '@material-ui/core';
 import { withStyles } from '@material-ui/core/styles';
 import Post from '../Feed/Post';
-import getAll from '../databaseManagement/getAll';
+import getUserPosts from '../databaseManagement/getUserPosts';
 import Alert from '../Alert';
 import { CircularProgress } from '@material-ui/core';
 import { withRouter } from 'react-router-dom';
 import getUserDetails from '../databaseManagement/getUserDetails';
 import LinearIndeterminate from '../LinearIndeterminate';
+import GetMore from '../Feed/GetMore';
 
 const styles = theme => ({
     root: {
@@ -37,31 +38,34 @@ class Profile extends Component {
                 notifType: '',
                 timeout: 3000
             },
+            loadingNewPosts: false,
+            morePoststoFetch: true,
+            retryAttempts: 0
         };
 
         this.props = props;
-    }
-    getUserPosts = async () => {
-        try {
-            const posts = await getAll();
-
-            this.setState({ userPosts: posts });
-        } catch(error) {
-            console.log(`Error occurred fetching(profile): ${error}`);
-        }
     }
     getUserInfo = async () => {
         try {
             const response = await getUserDetails(this.props.match.params.username);
             
             this.setState({ user: response[0] });
+
+            console.log(response[0]);
+
+            const posts = await getUserPosts(response[0].user_id);
+
+            this.setState({ userPosts: posts });
         } catch(error) {
             this.handleNotification('error', 'An error occurred fetching user');
+            if (this.state.retryAttempts < 10) {
+                this.getUserInfo();
+            }
+            this.setState({ retryAttempts: this.state.retryAttempts + 1 });
         }
     }
     componentDidMount() {
         this.getUserInfo();
-        this.getUserPosts();
     }
     handleNotification = async (variant, message, timeout=3000) => {
         const params = {
@@ -81,6 +85,28 @@ class Profile extends Component {
             timeout: 3000
         } });
     }
+    handleGetMorePosts = async (startId) => {
+        try {
+            this.setState({ loadingNewPosts: true });
+            const newPosts = await getUserPosts(this.state.user.user_id, startId);
+
+            if (newPosts.length >= 21) {
+                newPosts.pop();
+            } else {
+                this.setState({ morePoststoFetch: false });
+            }
+            this.setState({ userPosts: [...this.state.userPosts, ...newPosts] });
+            this.setState({ loadingNewPosts: false });
+        } catch {
+            if (this.state.retryAttempts < 3) {
+                this.handleGetMorePosts(startId);
+            } else {
+                console.log('error occurred fetching');
+                this.handleNotification('error', 'Error fetching more posts');
+            }
+            this.setState({ retryAttempts: this.state.retryAttempts + 1 });
+        }
+    }
     render() {
         const { classes } = this.props;
 
@@ -95,6 +121,7 @@ class Profile extends Component {
             </Alert>
             { Object.keys(this.state.user).length !== 0
                 ? (    
+                <>
                 <Grid container spacing={2} className={classes.root} style={{padding: 24}} justify='center'>
                     <Grid item xs={12} xl={6} className={classes.card}>
                         <ProfileDetails userDetails={{
@@ -140,6 +167,11 @@ class Profile extends Component {
                         )
                     }
                 </Grid>
+                <GetMore 
+                    startId={this.state.userPosts.length ? this.state.userPosts[this.state.userPosts.length - 1].id : 0} 
+                    getMorePosts={this.handleGetMorePosts} 
+                />
+                </>
                 )
                 : <LinearIndeterminate />
             }

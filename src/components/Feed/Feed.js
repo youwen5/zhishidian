@@ -214,7 +214,6 @@ class Feed extends Component {
                                     <GetMore 
                                     startId={this.state.posts[this.state.posts.length - 1].id} 
                                     getMorePosts={this.handleGetMorePosts} 
-                                    causeLoading={this.loadMorePostsLoading}
                                     />
                                 </>
                                 )

@@ -37,7 +37,7 @@ const useStyles = makeStyles(theme => ({
     },
     error: {
         color: red[500]
-    }
+    },
 }));
 
 export default function DesktopSignup(props) {
@@ -149,7 +149,6 @@ export default function DesktopSignup(props) {
                     setErrorMessage('');
                 }
                 break;
-            
             default:
                 setProgress(progress + 1);
                 setErrorMessage('');
@@ -271,6 +270,7 @@ export default function DesktopSignup(props) {
                                     Pick a color for your profile picture
                                 </Typography>
                             </Grid>
+                            <Grid item xl={12} />
                             <Grid item>
                                 <div>
                                     <Grid container spacing={4} justify='center' style={{marginTop: 10}}>
@@ -444,7 +444,10 @@ export default function DesktopSignup(props) {
                     </Grid>
                     <Grid item xl={11} lg={11} md={11} sm={11}>
                         <div>
-                            <LinearProgress variant='determinate' value={progress * 25} />
+                            <LinearProgress 
+                                variant='determinate' 
+                                value={progress !== 5 ? progress * 25 : 100} 
+                            />
                         </div>
                     </Grid>
                 </Grid>

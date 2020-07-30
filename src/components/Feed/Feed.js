@@ -47,7 +47,8 @@ class Feed extends Component {
             notifType: '',
             timeout: 3000
         },
-        requestType: ''
+        requestType: '',
+        retryAttempts: 0
     }
     constructor() {
         super();
@@ -78,9 +79,14 @@ class Feed extends Component {
                 this.setState({ errorFetching: false });
             }
         } catch(error) {
+            if (this.state.retryAttempts < 10) {
+                this.getPosts();
+            } else {
+                this.setState({ errorFetching: true })
+                this.handleNotification('error', 'Unexpected error fetching posts');
+            }
             console.log(`An error occurred while displaying posts`);
-            this.setState({ errorFetching: true })
-            this.handleNotification('error', 'Unexpected error fetching posts');
+            this.setState({ retryAttempts: this.state.retryAttempts + 1 });
         }
     }
     componentDidMount = () => {
@@ -107,9 +113,14 @@ class Feed extends Component {
             this.setState({ posts: [...this.state.posts, ...newPosts] });
             this.setState({ loadingNewPosts: false });
         } catch {
-            console.log('error occurred fetching');
-            this.handleNotification('error', 'Error fetching more posts');
-            this.setState({ errorFetching: true });
+            if (this.state.retryAttempts < 10) {
+                this.getPosts();
+            } else {
+                this.setState({ errorFetching: true })
+                this.handleNotification('error', 'Error occurred displaying more posts');
+            }
+            console.log(`An error occurred while displaying posts`);
+            this.setState({ retryAttempts: this.state.retryAttempts + 1 });
         }
     }
     handleNotification = async (variant, message, timeout=3000) => {

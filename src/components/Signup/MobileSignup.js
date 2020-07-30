@@ -1,7 +1,9 @@
 import React from 'react';
 import { 
     Grid, 
+    Card, 
     Typography, 
+    CardContent, 
     Divider, 
     TextField, 
     Button, 
@@ -35,7 +37,7 @@ const useStyles = makeStyles(theme => ({
     },
     error: {
         color: red[500]
-    }
+    },
 }));
 
 export default function DesktopSignup(props) {
@@ -147,7 +149,6 @@ export default function DesktopSignup(props) {
                     setErrorMessage('');
                 }
                 break;
-            
             default:
                 setProgress(progress + 1);
                 setErrorMessage('');
@@ -181,10 +182,8 @@ export default function DesktopSignup(props) {
             alignItems='center'
             spacing={2}
         >
-            <Grid 
-                item
-            >
-                <Typography variant='h4'>
+            <Grid item xl={12} xs={12} sm={12} lg={12} md={12}>
+                <Typography variant='h4' align='center'>
                     Create Account
                 </Typography>
                 <Divider />
@@ -196,6 +195,7 @@ export default function DesktopSignup(props) {
                             First, tell us a bit about yourself
                         </Typography>
                     </Grid>
+                    <Grid item xl={12} xs={12} sm={12} lg={12} md={12} />
                     <Grid item>
                         <TextField
                             fullWidth
@@ -205,7 +205,7 @@ export default function DesktopSignup(props) {
                             label='First Name'
                             type="text"
                             autoFocus
-                            onChange={event => setFirstName(event.target.value ? `${event.target.value[0].toUpperCase()}${event.target.value.substring(1)}` : '')}
+                            onChange={event => setFirstName(event.target.value ? `${event.target.value[0].toUpperCase()}${event.target.value.substring(1).toLowerCase()}` : '')}
                             defaultValue={firstName}
                         />
                         <TextField
@@ -215,7 +215,7 @@ export default function DesktopSignup(props) {
                             id='lastName'
                             label='Last Name'
                             type='text'
-                            onChange={event => setLastName(event.target.value ? `${event.target.value[0].toUpperCase()}${event.target.value.substring(1)}` : '')}
+                            onChange={event => setLastName(event.target.value ? `${event.target.value[0].toUpperCase()}${event.target.value.substring(1).toLowerCase()}` : '')}
                             defaultValue={lastName}
                             onKeyPress={e => {
                                 if (e.key === 'Enter') {
@@ -224,6 +224,7 @@ export default function DesktopSignup(props) {
                             }}
                         />
                     </Grid>
+                    <Grid item xl={12} xs={12} sm={12} lg={12} md={12} />
                 </div>
             </Slide>
             <Slide direction='left' in={progress === 1} exit={false} mountOnEnter unmountOnExit>
@@ -233,6 +234,7 @@ export default function DesktopSignup(props) {
                             Next, pick a username
                         </Typography>
                     </Grid>
+                    <Grid item xl={12} xs={12} sm={12} lg={12} md={12} />
                     <Grid item>
                         <TextField
                             fullWidth
@@ -251,6 +253,7 @@ export default function DesktopSignup(props) {
                             autoFocus
                         />
                     </Grid>
+                    <Grid item xl={12} xs={12} sm={12} lg={12} md={12} />
                     <Grid item>
                     <Divider style={{marginBottom: 10, marginTop: 10}} />
                         <Typography variant='body1' overflow='wrap' align='center'>
@@ -267,10 +270,12 @@ export default function DesktopSignup(props) {
                             Pick a color for your profile picture
                         </Typography>
                     </Grid>
+                    <Grid item xl={12} xs={12} sm={12} lg={12} md={12} />
                     <Grid item>
                         <div>
                             <Grid container spacing={4} justify='center' style={{marginTop: 10}}>
                                 { ['blue', 'green', 'red', 'cyan'].map(color => (
+                                    <>
                                     <Grid item>
                                         <Avatar className={profileColorPicker(color)}>{username ? username[0].toUpperCase() : null}</Avatar>
                                         <Radio
@@ -280,19 +285,24 @@ export default function DesktopSignup(props) {
                                             onChange={event => setProfileColor(event.target.value)}
                                         />
                                     </Grid>
+                                    <Grid item xl={12} xs={12} sm={12} lg={12} md={12} />
+                                    </>
                                 ))}
                             </Grid>
                         </div>
                     </Grid>
+                    <Grid item xl={12} xs={12} sm={12} lg={12} md={12} />
                 </div>
             </Slide>
             <Slide direction='left' in={progress === 3} exit={false} mountOnEnter unmountOnExit>
                 <div>
+                    <Grid item xl={12} xs={12} sm={12} lg={12} md={12} />
                     <Grid item>
                         <Typography variant='body1' align='center'>
                             Write something about yourself:
                         </Typography>
                     </Grid>
+                    <Grid item xl={12} xs={12} sm={12} lg={12} md={12} />
                     <Grid item>
                         <TextField
                             fullWidth
@@ -319,6 +329,7 @@ export default function DesktopSignup(props) {
                             Pick a secure password
                         </Typography>
                     </Grid>
+                    <Grid item xl={12} xs={12} sm={12} lg={12} md={12} />
                     <Grid item>
                         <TextField
                             fullWidth
@@ -338,6 +349,7 @@ export default function DesktopSignup(props) {
                         />
                     </Grid>
                     <Grid item>
+                    <Grid item xl={12} xs={12} sm={12} lg={12} md={12} />
                     <Divider style={{marginBottom: 10, marginTop: 10}} />
                         <Typography variant='body1' overflow='wrap' align='center'>
                             Make sure your password is secure!
@@ -356,6 +368,7 @@ export default function DesktopSignup(props) {
                         </Typography>
                         <Divider style={{marginTop: 10, marginBottom: 10}} />
                     </Grid>
+                    <Grid item xl={12} xs={12} sm={12} lg={12} md={12} />
                     <Grid item>
                         <Typography variant="body1" align='center'>
                             Full Name: {firstName} {lastName}
@@ -369,6 +382,7 @@ export default function DesktopSignup(props) {
                                     Password:
                                 </Typography>
                             </Grid>
+                            <Grid item xl={12} xs={12} sm={12} lg={12} md={12} />
                             <Grid item>
                                 { showPassword
                                     ? (
@@ -377,9 +391,11 @@ export default function DesktopSignup(props) {
                                     </Typography>
                                     )
                                     : (
-                                    <Button disableElevation onClick={() => setShowPassword(true)}>
-                                        Show
-                                    </Button>
+                                    <>
+                                        <Button disableElevation onClick={() => setShowPassword(true)}>
+                                            Show
+                                        </Button>
+                                    </>
                                     )
                                 }
                             </Grid>
@@ -393,11 +409,7 @@ export default function DesktopSignup(props) {
                     </Grid>
                 </div>
             </Slide>
-            <Grid item xl={12} lg={12} md={12} sm={12}>
-                <Typography variant='body1' className={classes.error}>
-                    {errorMessage}
-                </Typography>
-            </Grid>
+            <Grid item xl={12} xs={12} sm={12} lg={12} md={12} />
             <Grid item xl={8} lg={8} md={8} sm={8}>
                 { progress === 0
                     ? (
@@ -422,6 +434,9 @@ export default function DesktopSignup(props) {
                     </Button>
                     )
                 }
+                <Typography variant='body1' className={classes.error}>
+                    {errorMessage}
+                </Typography>
             </Grid>
             <Grid item xl={3} lg={3} md={3} sm={4}>
                 { progress !== 5
@@ -442,7 +457,10 @@ export default function DesktopSignup(props) {
             </Grid>
             <Grid item xl={11} lg={11} md={11} sm={11}>
                 <div>
-                    <LinearProgress variant='determinate' value={progress * 25} />
+                    <LinearProgress 
+                        variant='determinate' 
+                        value={progress !== 5 ? progress * 25 : 100} 
+                    />
                 </div>
             </Grid>
         </Grid>

@@ -103,7 +103,6 @@ import React from 'react';
 import { makeStyles, useTheme } from '@material-ui/core/styles';
 import DynamicFeedIcon from '@material-ui/icons/DynamicFeed';
 import AccountCircleIcon from '@material-ui/icons/AccountCircle';
-import AssignmentIcon from '@material-ui/icons/Assignment';
 import MenuIcon from '@material-ui/icons/Menu';
 import { Link } from 'react-router-dom';
 import { AppBar, CssBaseline, Divider, Drawer, Hidden, IconButton, List, ListItemIcon, ListItemText, Toolbar, Typography, ListItem } from '@material-ui/core';
@@ -166,10 +165,6 @@ const drawer = (
                 <ListItemIcon><AccountCircleIcon /></ListItemIcon>
                 <ListItemText primary={'My Profile'} />
             </ListItem>
-            <ListItem button key={'assignments'} component={Link} to='/assignments'>
-                <ListItemIcon><AssignmentIcon /></ListItemIcon>
-                <ListItemText primary={'Assignments'} />
-            </ListItem>
         </List>
         <Divider />
     {/* <List>
@@ -191,15 +186,19 @@ return (
     <div className={classes.toolbar}>
         <AppBar position='fixed' color='default' className={props.isAuthenticated ? classes.appBar : null}>
             <Toolbar>
-            <IconButton
-                color="inherit"
-                aria-label="open drawer"
-                edge="start"
-                onClick={handleDrawerToggle}
-                className={classes.menuButton}
-            >
-                <MenuIcon />
-            </IconButton>
+            { props.isAuthenticated
+                ? ( 
+                <IconButton
+                    color="inherit"
+                    aria-label="open drawer"
+                    edge="start"
+                    onClick={handleDrawerToggle}
+                    className={classes.menuButton}
+                >
+                    <MenuIcon />
+                </IconButton>
+                ) : null
+            }
             <Typography variant="h6" noWrap>
                 Zhi Shi Dian
             </Typography>

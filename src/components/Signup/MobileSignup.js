@@ -35,7 +35,7 @@ const useStyles = makeStyles(theme => ({
     },
     error: {
         color: red[500]
-    }
+    },
 }));
 
 export default function DesktopSignup(props) {
@@ -147,7 +147,6 @@ export default function DesktopSignup(props) {
                     setErrorMessage('');
                 }
                 break;
-            
             default:
                 setProgress(progress + 1);
                 setErrorMessage('');
@@ -205,7 +204,7 @@ export default function DesktopSignup(props) {
                             label='First Name'
                             type="text"
                             autoFocus
-                            onChange={event => setFirstName(event.target.value ? `${event.target.value[0].toUpperCase()}${event.target.value.substring(1)}` : '')}
+                            onChange={event => setFirstName(event.target.value ? `${event.target.value[0].toUpperCase()}${event.target.value.substring(1).toLowerCase()}` : '')}
                             defaultValue={firstName}
                         />
                         <TextField
@@ -215,7 +214,7 @@ export default function DesktopSignup(props) {
                             id='lastName'
                             label='Last Name'
                             type='text'
-                            onChange={event => setLastName(event.target.value ? `${event.target.value[0].toUpperCase()}${event.target.value.substring(1)}` : '')}
+                            onChange={event => setLastName(event.target.value ? `${event.target.value[0].toUpperCase()}${event.target.value.substring(1).toLowerCase()}` : '')}
                             defaultValue={lastName}
                             onKeyPress={e => {
                                 if (e.key === 'Enter') {
@@ -267,6 +266,7 @@ export default function DesktopSignup(props) {
                             Pick a color for your profile picture
                         </Typography>
                     </Grid>
+                    <Grid item xl={12} />
                     <Grid item>
                         <div>
                             <Grid container spacing={4} justify='center' style={{marginTop: 10}}>
@@ -393,11 +393,6 @@ export default function DesktopSignup(props) {
                     </Grid>
                 </div>
             </Slide>
-            <Grid item xl={12} lg={12} md={12} sm={12}>
-                <Typography variant='body1' className={classes.error}>
-                    {errorMessage}
-                </Typography>
-            </Grid>
             <Grid item xl={8} lg={8} md={8} sm={8}>
                 { progress === 0
                     ? (
@@ -422,6 +417,9 @@ export default function DesktopSignup(props) {
                     </Button>
                     )
                 }
+                <Typography variant='body1' className={classes.error}>
+                    {errorMessage}
+                </Typography>
             </Grid>
             <Grid item xl={3} lg={3} md={3} sm={4}>
                 { progress !== 5
@@ -442,7 +440,10 @@ export default function DesktopSignup(props) {
             </Grid>
             <Grid item xl={11} lg={11} md={11} sm={11}>
                 <div>
-                    <LinearProgress variant='determinate' value={progress * 25} />
+                    <LinearProgress 
+                        variant='determinate' 
+                        value={progress !== 5 ? progress * 25 : 100} 
+                    />
                 </div>
             </Grid>
         </Grid>

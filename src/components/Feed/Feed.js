@@ -79,7 +79,7 @@ class Feed extends Component {
                 this.setState({ errorFetching: false });
             }
         } catch(error) {
-            if (this.state.retryAttempts < 10) {
+            if (this.state.retryAttempts < 20) {
                 this.getPosts();
             } else {
                 this.setState({ errorFetching: true })
@@ -113,7 +113,7 @@ class Feed extends Component {
             this.setState({ posts: [...this.state.posts, ...newPosts] });
             this.setState({ loadingNewPosts: false });
         } catch {
-            if (this.state.retryAttempts < 10) {
+            if (this.state.retryAttempts < 20) {
                 this.getPosts();
             } else {
                 this.setState({ errorFetching: true })

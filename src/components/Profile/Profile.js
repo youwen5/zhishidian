@@ -57,9 +57,10 @@ class Profile extends Component {
 
             this.setState({ userPosts: posts });
         } catch(error) {
-            this.handleNotification('error', 'An error occurred fetching user');
-            if (this.state.retryAttempts < 10) {
+            if (this.state.retryAttempts < 20) {
                 this.getUserInfo();
+            } else {
+                this.handleNotification('error', 'An error occurred fetching user');
             }
             this.setState({ retryAttempts: this.state.retryAttempts + 1 });
         }
@@ -98,7 +99,7 @@ class Profile extends Component {
             this.setState({ userPosts: [...this.state.userPosts, ...newPosts] });
             this.setState({ loadingNewPosts: false });
         } catch {
-            if (this.state.retryAttempts < 10) {
+            if (this.state.retryAttempts < 20) {
                 this.handleGetMorePosts(startId);
             } else {
                 console.log('error occurred fetching');
@@ -123,7 +124,7 @@ class Profile extends Component {
                 ? (    
                 <>
                 <Grid container spacing={2} className={classes.root} style={{padding: 24}} justify='center'>
-                    <Grid item xs={12} xl={6} className={classes.card}>
+                    <Grid item xs={12} xl={5} md={5} sm={5} className={classes.card}>
                         <ProfileDetails userDetails={{
                             username: this.state.user.username,
                             firstName: this.state.user.first_name,
@@ -139,11 +140,12 @@ class Profile extends Component {
                             User Activity:
                         </Typography>
                     </Grid>
+                    <Grid item xl={8} md={8} sm={8} lg={8} />
                     <Grid item xs xl={12} />
                     {   this.state.userPosts.length
                         ? this.state.userPosts.map(currentPost => (
                         <>
-                        <Grid item xs={12} xl={5} className={classes.post}>
+                        <Grid item xs={12} xl={5} md={5} sm={5} lg={5} className={classes.post}>
                             <Post 
                             post={
                                 {
@@ -157,7 +159,7 @@ class Profile extends Component {
                             pushNotification={this.handleNotification}
                             />
                         </Grid>
-                        <Grid item xl={8} />
+                        <Grid item xl={8} md={8} sm={8} lg={8} />
                         </>
                     ))
                         : (

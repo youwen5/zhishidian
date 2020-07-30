@@ -184,10 +184,8 @@ export default function DesktopSignup(props) {
                     alignItems='center'
                     spacing={2}
                 >
-                    <Grid 
-                        item
-                    >
-                        <Typography variant='h4'>
+                    <Grid item xl={12} xs={12} sm={12} lg={12} md={12}>
+                        <Typography variant='h4' align='center'>
                             Create Account
                         </Typography>
                         <Divider />
@@ -199,6 +197,7 @@ export default function DesktopSignup(props) {
                                     First, tell us a bit about yourself
                                 </Typography>
                             </Grid>
+                            <Grid item xl={12} xs={12} sm={12} lg={12} md={12} />
                             <Grid item>
                                 <TextField
                                     fullWidth
@@ -227,6 +226,7 @@ export default function DesktopSignup(props) {
                                     }}
                                 />
                             </Grid>
+                            <Grid item xl={12} xs={12} sm={12} lg={12} md={12} />
                         </div>
                     </Slide>
                     <Slide direction='left' in={progress === 1} exit={false} mountOnEnter unmountOnExit>
@@ -236,6 +236,7 @@ export default function DesktopSignup(props) {
                                     Next, pick a username
                                 </Typography>
                             </Grid>
+                            <Grid item xl={12} xs={12} sm={12} lg={12} md={12} />
                             <Grid item>
                                 <TextField
                                     fullWidth
@@ -254,6 +255,7 @@ export default function DesktopSignup(props) {
                                     autoFocus
                                 />
                             </Grid>
+                            <Grid item xl={12} xs={12} sm={12} lg={12} md={12} />
                             <Grid item>
                             <Divider style={{marginBottom: 10, marginTop: 10}} />
                                 <Typography variant='body1' overflow='wrap' align='center'>
@@ -270,7 +272,7 @@ export default function DesktopSignup(props) {
                                     Pick a color for your profile picture
                                 </Typography>
                             </Grid>
-                            <Grid item xl={12} />
+                            <Grid item xl={12} xs={12} sm={12} lg={12} md={12} />
                             <Grid item>
                                 <div>
                                     <Grid container spacing={4} justify='center' style={{marginTop: 10}}>
@@ -292,11 +294,13 @@ export default function DesktopSignup(props) {
                     </Slide>
                     <Slide direction='left' in={progress === 3} exit={false} mountOnEnter unmountOnExit>
                         <div>
+                            <Grid item xl={12} xs={12} sm={12} lg={12} md={12} />
                             <Grid item>
                                 <Typography variant='body1' align='center'>
                                     Write something about yourself:
                                 </Typography>
                             </Grid>
+                            <Grid item xl={12} xs={12} sm={12} lg={12} md={12} />
                             <Grid item>
                                 <TextField
                                     fullWidth
@@ -323,6 +327,7 @@ export default function DesktopSignup(props) {
                                     Pick a secure password
                                 </Typography>
                             </Grid>
+                            <Grid item xl={12} xs={12} sm={12} lg={12} md={12} />
                             <Grid item>
                                 <TextField
                                     fullWidth
@@ -342,6 +347,7 @@ export default function DesktopSignup(props) {
                                 />
                             </Grid>
                             <Grid item>
+                            <Grid item xl={12} xs={12} sm={12} lg={12} md={12} />
                             <Divider style={{marginBottom: 10, marginTop: 10}} />
                                 <Typography variant='body1' overflow='wrap' align='center'>
                                     Make sure your password is secure!
@@ -360,6 +366,7 @@ export default function DesktopSignup(props) {
                                 </Typography>
                                 <Divider style={{marginTop: 10, marginBottom: 10}} />
                             </Grid>
+                            <Grid item xl={12} xs={12} sm={12} lg={12} md={12} />
                             <Grid item>
                                 <Typography variant="body1" align='center'>
                                     Full Name: {firstName} {lastName}
@@ -381,9 +388,12 @@ export default function DesktopSignup(props) {
                                             </Typography>
                                             )
                                             : (
-                                            <Button disableElevation onClick={() => setShowPassword(true)}>
-                                                Show
-                                            </Button>
+                                            <>
+                                                <Grid item xl={12} xs={12} sm={12} lg={12} md={12} />
+                                                <Button disableElevation onClick={() => setShowPassword(true)}>
+                                                    Show
+                                                </Button>
+                                            </>
                                             )
                                         }
                                     </Grid>

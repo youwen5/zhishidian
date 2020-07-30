@@ -1,5 +1,6 @@
 import React from 'react';
 import { Grid, Typography, TextField, Button } from '@material-ui/core';
+import { Link } from 'react-router-dom';
 
 export default function DesktopLogin(props) {
     const [username, setUsername] = React.useState('');
@@ -65,6 +66,8 @@ export default function DesktopLogin(props) {
                     size='small'
                     variant='outlined'
                     disabled={props.disable}
+                    component={Link}
+                    to='/signup'
                 >
                     Create Account
                 </Button>

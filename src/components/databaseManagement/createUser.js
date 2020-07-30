@@ -1,7 +1,7 @@
 import axios from 'axios';
 const config = require('./config.json');
 
-export default async function createUser(username, password, firstName, lastName, userType, profileColor) {
+export default async function createUser(username, password, firstName, lastName, userType, profileColor, bio) {
     try {
         const params = {
             "username": username,
@@ -9,7 +9,8 @@ export default async function createUser(username, password, firstName, lastName
             "firstName": firstName,
             "lastName": lastName,
             "userType": userType,
-            "profileColor": profileColor
+            "profileColor": profileColor,
+            "bio": bio
         }
 
         const url = `${config.api.invokeUrl}/users`;

@@ -178,6 +178,7 @@ class Feed extends Component {
                                 clearQueryStrings={this.clearQueryStrings}
                                 pushNotification={this.handleNotification}
                                 username={this.props.username}
+                                userid={this.props.userid}
                                 />
                             </Grid>
                             <Grid item xs={12} xl={8} md={8} sm={8} />

@@ -162,7 +162,7 @@ const drawer = (
                 <ListItemIcon><DynamicFeedIcon /></ListItemIcon>
                 <ListItemText primary={'Feed'} />
             </ListItem>
-            <ListItem button key={'profile'} component={Link} to='/profile/couscousdude'>
+            <ListItem button key={'profile'} component={Link} to='/profile'>
                 <ListItemIcon><AccountCircleIcon /></ListItemIcon>
                 <ListItemText primary={'My Profile'} />
             </ListItem>

@@ -37,18 +37,19 @@ class Login extends React.Component {
             try {
                 this.setState({ loadingActive: true });
                 const response = await authUser(username, password);
-    
-                if (response.data) {
-                    console.log(`authentication failed with code ${JSON.stringify(response)}`);
+
+                if (response[0].statusCode === 401) {
+                    this.handleNotification('warning', 'Username or password are incorrect');
+                    this.setState({ loadingActive: false });
                 } else {
                     this.props.updateAuthentication();
                     this.props.history.push('/feed');
-                    this.props.storeCreds(username);
+                    this.props.storeCreds(username, response[0].user_id);
                 }
-            } catch(error) {   
-                console.log(`Error occurred authenticating: ${error}`);
+            } catch(error) {  
+                this.handleNotification('error', 'Unexpected error occurred, try again');
                 this.setState({ loadingActive: false });
-                this.handleNotification('warning', 'Username or password are incorrect');
+                console.log(`authentication failed with ${error}`);
             }
         }
     }
@@ -83,12 +84,12 @@ class Login extends React.Component {
             </Alert>
             <LoadingScreen open={this.state.loadingActive} />
             <Grid 
-            container 
-            justify='center' 
-            alignItems="center"
-            className={classes.root}
-            style={{paddingTop: 100}}
-            spacing='2'
+                container 
+                justify='center' 
+                alignItems="center"
+                className={classes.root}
+                style={{paddingTop: 100}}
+                spacing={2}
             >
                 <Grid item xs={8} xl={3} sm={5} lg={4} md={4}>
                     { this.props.width > 600

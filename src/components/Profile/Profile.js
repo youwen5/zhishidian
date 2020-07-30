@@ -6,6 +6,9 @@ import Post from '../Feed/Post';
 import getAll from '../databaseManagement/getAll';
 import Alert from '../Alert';
 import { CircularProgress } from '@material-ui/core';
+import { withRouter } from 'react-router-dom';
+import getUserDetails from '../databaseManagement/getUserDetails';
+import LinearIndeterminate from '../LinearIndeterminate';
 
 const styles = theme => ({
     root: {
@@ -18,7 +21,7 @@ const styles = theme => ({
         position: "absolute",
         left: "50%",
         transform: "translate(-50%)",
-    }
+    },
 });
 
 class Profile extends Component {
@@ -27,10 +30,7 @@ class Profile extends Component {
 
         this.state = {
             userPosts: [],
-            username: '',
-            userFirstName: '',
-            userLastName: '',
-            userBio: '',
+            user: {},
             notificationActive: {
                 isActive: false,
                 notifContent: '',
@@ -50,10 +50,18 @@ class Profile extends Component {
             console.log(`Error occurred fetching(profile): ${error}`);
         }
     }
+    getUserInfo = async () => {
+        try {
+            const response = await getUserDetails(this.props.match.params.username);
+            
+            this.setState({ user: response[0] });
+        } catch(error) {
+            this.handleNotification('error', 'An error occurred fetching user');
+        }
+    }
     componentDidMount() {
+        this.getUserInfo();
         this.getUserPosts();
-        const { username } = this.props.match.params;
-        this.setState({ username: username });
     }
     handleNotification = async (variant, message, timeout=3000) => {
         const params = {
@@ -85,50 +93,59 @@ class Profile extends Component {
                  onClose={this.handleStopNotification}>
                  {this.state.notificationActive.notifContent}
             </Alert>
-            <Grid container spacing={2} className={classes.root} style={{padding: 24}} justify='center'>
-                <Grid item xs={12} xl={6} className={classes.card}>
-                    <ProfileDetails userDetails={{
-                        username: this.state.username
-                    }}
-                    />
-                </Grid>
-                <Grid item xs={12} xl={12} />
-                <Grid item xs={12} xl={5}>
-                    <Typography variant='h4' align='center'>
-                        User Activity:
-                    </Typography>
-                </Grid>
-                <Grid item xs xl={12} />
-                {   this.state.userPosts.length
-                    ? this.state.userPosts.map(currentPost => (
-                    <>
-                    <Grid item xs={12} xl={5} className={classes.post}>
-                        <Post 
-                        post={
-                            {
-                                "title": currentPost.title,
-                                "author": currentPost.author,
-                                "content": currentPost.content,
-                                "date": currentPost.time,
-                                "pfColor": currentPost.pfColor
-                            }
-                        }
-                        pushNotification={this.handleNotification}
+            { Object.keys(this.state.user).length !== 0
+                ? (    
+                <Grid container spacing={2} className={classes.root} style={{padding: 24}} justify='center'>
+                    <Grid item xs={12} xl={6} className={classes.card}>
+                        <ProfileDetails userDetails={{
+                            username: this.state.user.username,
+                            firstName: this.state.user.first_name,
+                            lastName: this.state.user.last_name,
+                            profileColor: this.state.user.profile_color,
+                            bio: this.state.user.bio
+                        }}
                         />
                     </Grid>
-                    <Grid item xl={8} />
-                    </>
-                ))
-                    : (
-                        <Grid item xs={12} xl={12} sm={12} md={12} lg={12}>
-                            <CircularProgress className={classes.circularLoading} />
+                    <Grid item xs={12} xl={12} />
+                    <Grid item xs={12} xl={5}>
+                        <Typography variant='h4' align='center'>
+                            User Activity:
+                        </Typography>
+                    </Grid>
+                    <Grid item xs xl={12} />
+                    {   this.state.userPosts.length
+                        ? this.state.userPosts.map(currentPost => (
+                        <>
+                        <Grid item xs={12} xl={5} className={classes.post}>
+                            <Post 
+                            post={
+                                {
+                                    "title": currentPost.title,
+                                    "author": currentPost.author,
+                                    "content": currentPost.content,
+                                    "date": currentPost.time,
+                                    "pfColor": currentPost.pfColor
+                                }
+                            }
+                            pushNotification={this.handleNotification}
+                            />
                         </Grid>
-                    )
-                }
-            </Grid>
+                        <Grid item xl={8} />
+                        </>
+                    ))
+                        : (
+                            <Grid item xs={12} xl={12} sm={12} md={12} lg={12}>
+                                <CircularProgress className={classes.circularLoading} />
+                            </Grid>
+                        )
+                    }
+                </Grid>
+                )
+                : <LinearIndeterminate />
+            }
             </>
         );
     }
 }
 
-export default withStyles(styles, { withTheme: true })(Profile);
+export default withRouter(withStyles(styles, { withTheme: true })(Profile));

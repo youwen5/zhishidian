@@ -277,6 +277,7 @@ export default function DesktopSignup(props) {
                                 <div>
                                     <Grid container spacing={4} justify='center' style={{marginTop: 10}}>
                                         { ['blue', 'green', 'red', 'cyan'].map(color => (
+                                            <>
                                             <Grid item>
                                                 <Avatar className={profileColorPicker(color)}>{username ? username[0].toUpperCase() : null}</Avatar>
                                                 <Radio
@@ -286,10 +287,13 @@ export default function DesktopSignup(props) {
                                                     onChange={event => setProfileColor(event.target.value)}
                                                 />
                                             </Grid>
+                                            <Grid item xl={12} xs={12} sm={12} lg={12} md={12} />
+                                            </>
                                         ))}
                                     </Grid>
                                 </div>
                             </Grid>
+                            <Grid item xl={12} xs={12} sm={12} lg={12} md={12} />
                         </div>
                     </Slide>
                     <Slide direction='left' in={progress === 3} exit={false} mountOnEnter unmountOnExit>
@@ -380,6 +384,7 @@ export default function DesktopSignup(props) {
                                             Password:
                                         </Typography>
                                     </Grid>
+                                    <Grid item xl={12} xs={12} sm={12} lg={12} md={12} />
                                     <Grid item>
                                         { showPassword
                                             ? (
@@ -389,7 +394,6 @@ export default function DesktopSignup(props) {
                                             )
                                             : (
                                             <>
-                                                <Grid item xl={12} xs={12} sm={12} lg={12} md={12} />
                                                 <Button disableElevation onClick={() => setShowPassword(true)}>
                                                     Show
                                                 </Button>
@@ -407,6 +411,7 @@ export default function DesktopSignup(props) {
                             </Grid>
                         </div>
                     </Slide>
+                    <Grid item xl={12} xs={12} sm={12} lg={12} md={12} />
                     <Grid item xl={8} lg={8} md={8} sm={8}>
                         { progress === 0
                             ? (

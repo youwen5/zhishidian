@@ -192,7 +192,7 @@ class Feed extends Component {
                                 userid={this.props.userid}
                                 />
                             </Grid>
-                            <Grid item xs={12} xl={8} md={8} sm={8} />
+                            <Grid item xl={8} md={8} sm={8} lg={8} />
                             { 
                                 /* sm={6} lg={4}*/
                                 this.state.posts.map(currentPost => (
@@ -211,7 +211,7 @@ class Feed extends Component {
                                         pushNotification={this.handleNotification}
                                         />
                                     </Grid>
-                                    <Grid item xl={8} md={8} sm={8} />
+                                    <Grid item xl={8} md={8} sm={8} lg={8} />
                                     </Fragment>
                                 ))
                             }

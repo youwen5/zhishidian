@@ -98,7 +98,7 @@ class Profile extends Component {
             this.setState({ userPosts: [...this.state.userPosts, ...newPosts] });
             this.setState({ loadingNewPosts: false });
         } catch {
-            if (this.state.retryAttempts < 3) {
+            if (this.state.retryAttempts < 10) {
                 this.handleGetMorePosts(startId);
             } else {
                 console.log('error occurred fetching');

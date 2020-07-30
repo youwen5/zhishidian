@@ -1,9 +1,7 @@
 import React from 'react';
 import { 
-    Grid, 
-    Card, 
-    Typography, 
-    CardContent, 
+    Grid,  
+    Typography,
     Divider, 
     TextField, 
     Button, 
@@ -176,293 +174,290 @@ export default function DesktopSignup(props) {
     }
 
     return (
-        <Grid 
-            container 
-            justify='center' 
-            alignItems='center'
-            spacing={2}
-        >
-            <Grid item xl={12} xs={12} sm={12} lg={12} md={12}>
-                <Typography variant='h4' align='center'>
-                    Create Account
-                </Typography>
-                <Divider />
-            </Grid>
-            <Slide direction='left' in={progress === 0} exit={false} mountOnEnter unmountOnExit>
-                <div>
-                    <Grid item>
-                        <Typography variant='body1' align='center'>
-                            First, tell us a bit about yourself
-                        </Typography>
-                    </Grid>
-                    <Grid item xl={12} xs={12} sm={12} lg={12} md={12} />
-                    <Grid item>
-                        <TextField
-                            fullWidth
-                            variant='outlined'
-                            margin="dense"
-                            id="firstName"
-                            label='First Name'
-                            type="text"
-                            autoFocus
-                            onChange={event => setFirstName(event.target.value ? `${event.target.value[0].toUpperCase()}${event.target.value.substring(1).toLowerCase()}` : '')}
-                            defaultValue={firstName}
-                        />
-                        <TextField
-                            fullWidth
-                            variant='outlined'
-                            margin='dense'
-                            id='lastName'
-                            label='Last Name'
-                            type='text'
-                            onChange={event => setLastName(event.target.value ? `${event.target.value[0].toUpperCase()}${event.target.value.substring(1).toLowerCase()}` : '')}
-                            defaultValue={lastName}
-                            onKeyPress={e => {
-                                if (e.key === 'Enter') {
-                                    goToNext();
-                                }
-                            }}
-                        />
-                    </Grid>
-                    <Grid item xl={12} xs={12} sm={12} lg={12} md={12} />
-                </div>
-            </Slide>
-            <Slide direction='left' in={progress === 1} exit={false} mountOnEnter unmountOnExit>
-                <div>
-                    <Grid item>
-                        <Typography variant='body1' align='center'>
-                            Next, pick a username
-                        </Typography>
-                    </Grid>
-                    <Grid item xl={12} xs={12} sm={12} lg={12} md={12} />
-                    <Grid item>
-                        <TextField
-                            fullWidth
-                            variant='outlined'
-                            margin='dense'
-                            id='userName'
-                            label='Username'
-                            type='text'
-                            onChange={event => setUsername(event.target.value)}
-                            defaultValue={username}
-                            onKeyPress={e => {
-                                if (e.key === 'Enter') {
-                                    goToNext();
-                                }
-                            }}
-                            autoFocus
-                        />
-                    </Grid>
-                    <Grid item xl={12} xs={12} sm={12} lg={12} md={12} />
-                    <Grid item>
-                    <Divider style={{marginBottom: 10, marginTop: 10}} />
-                        <Typography variant='body1' overflow='wrap' align='center'>
-                            Your username is used to uniquely
-                            identify your account. You can't change it later!
-                        </Typography>
-                    </Grid>
-                </div>
-            </Slide>
-            <Slide direction='left' in={progress === 2} exit={false} mountOnEnter unmountOnExit>
-                <div>
-                    <Grid item>
-                        <Typography variant='body1' align='center'>
-                            Pick a color for your profile picture
-                        </Typography>
-                    </Grid>
-                    <Grid item xl={12} xs={12} sm={12} lg={12} md={12} />
-                    <Grid item>
-                        <div>
-                            <Grid container spacing={4} justify='center' style={{marginTop: 10}}>
-                                { ['blue', 'green', 'red', 'cyan'].map(color => (
-                                    <>
-                                    <Grid item>
-                                        <Avatar className={profileColorPicker(color)}>{username ? username[0].toUpperCase() : null}</Avatar>
-                                        <Radio
-                                            checked={profileColor === color}
-                                            value={color}
-                                            color='primary'
-                                            onChange={event => setProfileColor(event.target.value)}
-                                        />
-                                    </Grid>
-                                    <Grid item xl={12} xs={12} sm={12} lg={12} md={12} />
-                                    </>
-                                ))}
-                            </Grid>
-                        </div>
-                    </Grid>
-                    <Grid item xl={12} xs={12} sm={12} lg={12} md={12} />
-                </div>
-            </Slide>
-            <Slide direction='left' in={progress === 3} exit={false} mountOnEnter unmountOnExit>
-                <div>
-                    <Grid item xl={12} xs={12} sm={12} lg={12} md={12} />
-                    <Grid item>
-                        <Typography variant='body1' align='center'>
-                            Write something about yourself:
-                        </Typography>
-                    </Grid>
-                    <Grid item xl={12} xs={12} sm={12} lg={12} md={12} />
-                    <Grid item>
-                        <TextField
-                            fullWidth
-                            variant='outlined'
-                            margin="dense"
-                            id="bio"
-                            label='Bio'
-                            type="text"
-                            autoFocus
-                            multiline
-                            rows={4}
-                            onChange={event => setBio(event.target.value)}
-                            defaultValue={bio}
-                            error={bio.length > 200}
-                            helperText={`${bio.length}/200`}
-                        />
-                    </Grid>
-                </div>
-            </Slide>
-            <Slide direction='left' in={progress === 4} exit={false} mountOnEnter unmountOnExit>
-                <div>
-                    <Grid item>
-                        <Typography variant='body1' align='center'>
-                            Pick a secure password
-                        </Typography>
-                    </Grid>
-                    <Grid item xl={12} xs={12} sm={12} lg={12} md={12} />
-                    <Grid item>
-                        <TextField
-                            fullWidth
-                            variant='outlined'
-                            margin='dense'
-                            id='password'
-                            label='Password'
-                            type='password'
-                            onChange={event => setPassword(event.target.value)}
-                            defaultValue={password}
-                            onKeyPress={e => {
-                                if (e.key === 'Enter') {
-                                    goToNext();
-                                }
-                            }}
-                            autoFocus
-                        />
-                    </Grid>
-                    <Grid item>
-                    <Grid item xl={12} xs={12} sm={12} lg={12} md={12} />
-                    <Divider style={{marginBottom: 10, marginTop: 10}} />
-                        <Typography variant='body1' overflow='wrap' align='center'>
-                            Make sure your password is secure!
-                        </Typography>
-                        <a target='_blank' rel='noopener noreferrer' href='https://blog.avast.com/strong-password-ideas'>
-                            See: Avast Post
-                        </a>
-                    </Grid>
-                </div>
-            </Slide>
-            <Slide direction='left' in={progress === 5} exit={false} mountOnEnter unmountOnExit>
-                <div>
-                    <Grid item>
-                        <Typography variant='body1' align='center'>
-                            Finally, verify the following information is correct:
-                        </Typography>
-                        <Divider style={{marginTop: 10, marginBottom: 10}} />
-                    </Grid>
-                    <Grid item xl={12} xs={12} sm={12} lg={12} md={12} />
-                    <Grid item>
-                        <Typography variant="body1" align='center'>
-                            Full Name: {firstName} {lastName}
-                        </Typography>
-                        <Typography variant="body1" align='center'>
-                            Username: {username}
-                        </Typography>
-                        <Grid container justify='center'>
-                            <Grid item xl={12}>
-                                <Typography variant="body1" align='center'>
-                                    Password:
+    <Grid 
+        container 
+        justify='center' 
+        alignItems='center'
+        spacing={2}
+    >
+        <Grid item xl={12} xs={12} sm={12} lg={12} md={12}>
+            <Typography variant='h4' align='center'>
+                Create Account
+            </Typography>
+            <Divider />
+        </Grid>
+        <Slide direction='left' in={progress === 0} exit={false} mountOnEnter unmountOnExit>
+            <div>
+                <Grid item>
+                    <Typography variant='body1' align='center'>
+                        First, tell us a bit about yourself
+                    </Typography>
+                </Grid>
+                <Grid item xl={12} xs={12} sm={12} lg={12} md={12} />
+                <Grid item>
+                    <TextField
+                        fullWidth
+                        variant='outlined'
+                        margin="dense"
+                        id="firstName"
+                        label='First Name'
+                        type="text"
+                        autoFocus
+                        onChange={event => setFirstName(event.target.value ? `${event.target.value[0].toUpperCase()}${event.target.value.substring(1).toLowerCase()}` : '')}
+                        defaultValue={firstName}
+                    />
+                    <TextField
+                        fullWidth
+                        variant='outlined'
+                        margin='dense'
+                        id='lastName'
+                        label='Last Name'
+                        type='text'
+                        onChange={event => setLastName(event.target.value ? `${event.target.value[0].toUpperCase()}${event.target.value.substring(1).toLowerCase()}` : '')}
+                        defaultValue={lastName}
+                        onKeyPress={e => {
+                            if (e.key === 'Enter') {
+                                goToNext();
+                            }
+                        }}
+                    />
+                </Grid>
+                <Grid item xl={12} xs={12} sm={12} lg={12} md={12} />
+            </div>
+        </Slide>
+        <Slide direction='left' in={progress === 1} exit={false} mountOnEnter unmountOnExit>
+            <div>
+                <Grid item>
+                    <Typography variant='body1' align='center'>
+                        Next, pick a username
+                    </Typography>
+                </Grid>
+                <Grid item xl={12} xs={12} sm={12} lg={12} md={12} />
+                <Grid item>
+                    <TextField
+                        fullWidth
+                        variant='outlined'
+                        margin='dense'
+                        id='userName'
+                        label='Username'
+                        type='text'
+                        onChange={event => setUsername(event.target.value)}
+                        defaultValue={username}
+                        onKeyPress={e => {
+                            if (e.key === 'Enter') {
+                                goToNext();
+                            }
+                        }}
+                        autoFocus
+                    />
+                </Grid>
+                <Grid item xl={12} xs={12} sm={12} lg={12} md={12} />
+                <Grid item>
+                <Divider style={{marginBottom: 10, marginTop: 10}} />
+                    <Typography variant='body1' overflow='wrap' align='center'>
+                        Your username is used to uniquely
+                        identify your account. You can't change it later!
+                    </Typography>
+                </Grid>
+            </div>
+        </Slide>
+        <Slide direction='left' in={progress === 2} exit={false} mountOnEnter unmountOnExit>
+            <div>
+                <Grid item>
+                    <Typography variant='body1' align='center'>
+                        Pick a color for your profile picture
+                    </Typography>
+                </Grid>
+                <Grid item xl={12} xs={12} sm={12} lg={12} md={12} />
+                <Grid item>
+                    <div>
+                        <Grid container spacing={4} justify='center' style={{marginTop: 10}}>
+                            { ['blue', 'green', 'red', 'cyan'].map(color => (
+                                <Grid item>
+                                    <Avatar className={profileColorPicker(color)}>{username ? username[0].toUpperCase() : null}</Avatar>
+                                    <Radio
+                                        checked={profileColor === color}
+                                        value={color}
+                                        color='primary'
+                                        onChange={event => setProfileColor(event.target.value)}
+                                    />
+                                </Grid>
+                            ))}
+                        </Grid>
+                    </div>
+                </Grid>
+                <Grid item xl={12} xs={12} sm={12} lg={12} md={12} />
+            </div>
+        </Slide>
+        <Slide direction='left' in={progress === 3} exit={false} mountOnEnter unmountOnExit>
+            <div>
+                <Grid item xl={12} xs={12} sm={12} lg={12} md={12} />
+                <Grid item>
+                    <Typography variant='body1' align='center'>
+                        Write something about yourself:
+                    </Typography>
+                </Grid>
+                <Grid item xl={12} xs={12} sm={12} lg={12} md={12} />
+                <Grid item>
+                    <TextField
+                        fullWidth
+                        variant='outlined'
+                        margin="dense"
+                        id="bio"
+                        label='Bio'
+                        type="text"
+                        autoFocus
+                        multiline
+                        rows={4}
+                        onChange={event => setBio(event.target.value)}
+                        defaultValue={bio}
+                        error={bio.length > 200}
+                        helperText={`${bio.length}/200`}
+                    />
+                </Grid>
+            </div>
+        </Slide>
+        <Slide direction='left' in={progress === 4} exit={false} mountOnEnter unmountOnExit>
+            <div>
+                <Grid item>
+                    <Typography variant='body1' align='center'>
+                        Pick a secure password
+                    </Typography>
+                </Grid>
+                <Grid item xl={12} xs={12} sm={12} lg={12} md={12} />
+                <Grid item>
+                    <TextField
+                        fullWidth
+                        variant='outlined'
+                        margin='dense'
+                        id='password'
+                        label='Password'
+                        type='password'
+                        onChange={event => setPassword(event.target.value)}
+                        defaultValue={password}
+                        onKeyPress={e => {
+                            if (e.key === 'Enter') {
+                                goToNext();
+                            }
+                        }}
+                        autoFocus
+                    />
+                </Grid>
+                <Grid item>
+                <Grid item xl={12} xs={12} sm={12} lg={12} md={12} />
+                <Divider style={{marginBottom: 10, marginTop: 10}} />
+                    <Typography variant='body1' overflow='wrap' align='center'>
+                        Make sure your password is secure!
+                    </Typography>
+                    <a target='_blank' rel='noopener noreferrer' href='https://blog.avast.com/strong-password-ideas'>
+                        See: Avast Post
+                    </a>
+                </Grid>
+            </div>
+        </Slide>
+        <Slide direction='left' in={progress === 5} exit={false} mountOnEnter unmountOnExit>
+            <div>
+                <Grid item>
+                    <Typography variant='body1' align='center'>
+                        Finally, verify the following information is correct:
+                    </Typography>
+                    <Divider style={{marginTop: 10, marginBottom: 10}} />
+                </Grid>
+                <Grid item xl={12} xs={12} sm={12} lg={12} md={12} />
+                <Grid item>
+                    <Typography variant="body1" align='center'>
+                        Full Name: {firstName} {lastName}
+                    </Typography>
+                    <Typography variant="body1" align='center'>
+                        Username: {username}
+                    </Typography>
+                    <Grid container justify='center'>
+                        <Grid item xl={12}>
+                            <Typography variant="body1" align='center'>
+                                Password:
+                            </Typography>
+                        </Grid>
+                        <Grid item xl={12} xs={12} sm={12} lg={12} md={12} />
+                        <Grid item>
+                            { showPassword
+                                ? (
+                                <Typography variant='body2'>
+                                    {password}
                                 </Typography>
-                            </Grid>
-                            <Grid item xl={12} xs={12} sm={12} lg={12} md={12} />
-                            <Grid item>
-                                { showPassword
-                                    ? (
-                                    <Typography variant='body2'>
-                                        {password}
-                                    </Typography>
-                                    )
-                                    : (
-                                    <>
-                                        <Button disableElevation onClick={() => setShowPassword(true)}>
-                                            Show
-                                        </Button>
-                                    </>
-                                    )
-                                }
-                            </Grid>
+                                )
+                                : (
+                                <>
+                                    <Button disableElevation onClick={() => setShowPassword(true)}>
+                                        Show
+                                    </Button>
+                                </>
+                                )
+                            }
                         </Grid>
                     </Grid>
-                    <Grid item>
-                        <Divider style={{marginBottom: 10, marginTop: 10}} />
-                        <Typography variant='body1' overflow='wrap' align='center'>
-                            Once you're done, click the button to confirm:
-                        </Typography>
-                    </Grid>
-                </div>
-            </Slide>
-            <Grid item xl={12} xs={12} sm={12} lg={12} md={12} />
-            <Grid item xl={8} lg={8} md={8} sm={8}>
-                { progress === 0
-                    ? (
-
-                    <Button
-                        variant='outlined'
-                        startIcon={<ArrowBackIcon />}
-                        component={ Link }
-                        to='/login'
-                        onClick={() => setProgress(0)}
-                    >
-                        Back
-                    </Button> )
-                        : (
-                    <Button
-                        variant='outlined'
-                        startIcon={<ArrowBackIcon />}
-                        onClick={() => setProgress(progress - 1)}
-                        disabled={success || loading}
-                    >
-                        Back
-                    </Button>
-                    )
-                }
-                <Typography variant='body1' className={classes.error}>
-                    {errorMessage}
-                </Typography>
-            </Grid>
-            <Grid item xl={3} lg={3} md={3} sm={4}>
-                { progress !== 5
+                </Grid>
+                <Grid item>
+                    <Divider style={{marginBottom: 10, marginTop: 10}} />
+                    <Typography variant='body1' overflow='wrap' align='center'>
+                        Once you're done, click the button to confirm:
+                    </Typography>
+                </Grid>
+            </div>
+        </Slide>
+        <Grid item xl={12} xs={12} sm={12} lg={12} md={12} />
+        <Grid item xl={8} lg={8} md={8} sm={8}>
+            { progress === 0
                 ? (
-                    <Button
-                        variant='contained'
-                        color='primary'
-                        endIcon={<ArrowForwardIcon />}
-                        onClick={goToNext}
-                    >
-                        Next
-                    </Button>
+
+                <Button
+                    variant='outlined'
+                    startIcon={<ArrowBackIcon />}
+                    component={ Link }
+                    to='/login'
+                    onClick={() => setProgress(0)}
+                >
+                    Back
+                </Button> )
+                    : (
+                <Button
+                    variant='outlined'
+                    startIcon={<ArrowBackIcon />}
+                    onClick={() => setProgress(progress - 1)}
+                    disabled={success || loading}
+                >
+                    Back
+                </Button>
                 )
-                : (
-                    <LoadingButton success={success} loading={loading} handleConfirm={handleConfirmDetails} />
-                )   
-                }
-            </Grid>
-            <Grid item xl={11} lg={11} md={11} sm={11}>
-                <div>
-                    <LinearProgress 
-                        variant='determinate' 
-                        value={progress !== 5 ? progress * 25 : 100} 
-                    />
-                </div>
-            </Grid>
+            }
+            <Typography variant='body1' className={classes.error}>
+                {errorMessage}
+            </Typography>
         </Grid>
+        <Grid item xl={3} lg={3} md={3} sm={4}>
+            { progress !== 5
+            ? (
+                <Button
+                    variant='contained'
+                    color='primary'
+                    endIcon={<ArrowForwardIcon />}
+                    onClick={goToNext}
+                >
+                    Next
+                </Button>
+            )
+            : (
+                <LoadingButton success={success} loading={loading} handleConfirm={handleConfirmDetails} />
+            )   
+            }
+        </Grid>
+        <Grid item xl={11} lg={11} md={11} sm={11}>
+            <div>
+                <LinearProgress 
+                    variant='determinate' 
+                    value={progress !== 5 ? progress * 25 : 100} 
+                />
+            </div>
+        </Grid>
+    </Grid>
     )
 }

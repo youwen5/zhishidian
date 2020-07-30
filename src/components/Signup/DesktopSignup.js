@@ -208,7 +208,7 @@ export default function DesktopSignup(props) {
                                     label='First Name'
                                     type="text"
                                     autoFocus
-                                    onChange={event => setFirstName(event.target.value ? `${event.target.value[0].toUpperCase()}${event.target.value.substring(1)}` : '')}
+                                    onChange={event => setFirstName(event.target.value ? `${event.target.value[0].toUpperCase()}${event.target.value.substring(1).toLowerCase()}` : '')}
                                     defaultValue={firstName}
                                 />
                                 <TextField
@@ -218,7 +218,7 @@ export default function DesktopSignup(props) {
                                     id='lastName'
                                     label='Last Name'
                                     type='text'
-                                    onChange={event => setLastName(event.target.value ? `${event.target.value[0].toUpperCase()}${event.target.value.substring(1)}` : '')}
+                                    onChange={event => setLastName(event.target.value ? `${event.target.value[0].toUpperCase()}${event.target.value.substring(1).toLowerCase()}` : '')}
                                     defaultValue={lastName}
                                     onKeyPress={e => {
                                         if (e.key === 'Enter') {

@@ -21,6 +21,8 @@ import LoadingButton from './LoadingButton';
 import getUserDetails from '../databaseManagement/getUserDetails';
 import createUser from '../databaseManagement/createUser';
 import { useHistory } from 'react-router-dom';
+import ReCAPTCHA from 'react-google-recaptcha';
+const recaptchaConfig = require('./recaptcha.json');
 
 const useStyles = makeStyles(theme => ({
     red: {
@@ -37,6 +39,10 @@ const useStyles = makeStyles(theme => ({
     },
     error: {
         color: red[500]
+    },
+    recaptchaContainer: {
+        display: 'flex',
+        justifyContent: 'center'
     },
 }));
 
@@ -63,6 +69,8 @@ export default function DesktopSignup(props) {
           clearTimeout(timer.current);
         };
       }, []);
+
+    const recaptchaRef = React.createRef();
 
     const profileColorPicker = (color) => {
         switch(color) {
@@ -158,20 +166,26 @@ export default function DesktopSignup(props) {
 
     const handleConfirmDetails = async () => {
         setLoading(true);
-        
-        try {
-            await createUser(username, password, firstName, lastName, 'parent', profileColor, bio);
+        let token;
 
-            setSuccess(true);
+        try {
+            token = await recaptchaRef.current.executeAsync();
+            
+            if (token) {
+                await createUser(username, password, firstName, lastName, 'parent', profileColor, bio, token);
+                setSuccess(true);
+
+                timer.current = setTimeout(() => {
+                    history.push('/login');
+                }, 1000);
+            } else {
+                console.log('failed');
+            }
         } catch(error) {
             console.log(`Error occurred creating user: ${error}`);
             
         } finally {
             setLoading(false);
-            timer.current = setTimeout(() => {
-                history.push('/login');
-            }, 1000);
-            
         }
     }
 
@@ -403,9 +417,18 @@ export default function DesktopSignup(props) {
                             <Grid item>
                                 <Divider style={{marginBottom: 10, marginTop: 10}} />
                                 <Typography variant='body1' overflow='wrap' align='center'>
-                                    Once you're done, click the button to confirm:
+                                    Once you're done, complete the Captcha and click the button to confirm:
                                 </Typography>
+                                <Divider style={{marginBottom: 10, marginTop: 10}} />
                             </Grid>
+                            <Grid item xl={12} xs={12} sm={12} lg={12} md={12} />
+                            <ReCAPTCHA
+                                ref={recaptchaRef}
+                                size='invisible'
+                                sitekey={recaptchaConfig.key}
+                                // onChange={event => console.log(event)}
+                            />
+                            <Grid item xl={12} xs={12} sm={12} lg={12} md={12} />
                         </div>
                     </Slide>
                     <Grid item xl={12} xs={12} sm={12} lg={12} md={12} />

@@ -413,18 +413,10 @@ export default function DesktopSignup(props) {
                     <Grid item>
                         <Divider style={{marginBottom: 10, marginTop: 10}} />
                         <Typography variant='body1' overflow='wrap' align='center'>
-                            Once you're done, complete the Captcha and click the button to confirm:
+                            Once you're done, click the button to confirm:
                         </Typography>
                         <Divider style={{marginBottom: 10, marginTop: 10}} />
                     </Grid>
-                    <Grid item xl={12} xs={12} sm={12} lg={12} md={12} />
-                    <ReCAPTCHA
-                        ref={recaptchaRef}
-                        size='invisible'
-                        sitekey={recaptchaConfig.key}
-                        // onChange={event => console.log(event)}
-                    />
-                    <Grid item xl={12} xs={12} sm={12} lg={12} md={12} />
                 </div>
             </Slide>
             <Grid item xl={12} xs={12} sm={12} lg={12} md={12} />
@@ -472,6 +464,12 @@ export default function DesktopSignup(props) {
                     <LoadingButton success={success} loading={loading} handleConfirm={handleConfirmDetails} />
                 )   
                 }
+                <ReCAPTCHA
+                        ref={recaptchaRef}
+                        size='invisible'
+                        sitekey={recaptchaConfig.key}
+                        // onChange={event => console.log(event)}
+                />
             </Grid>
             <Grid item xl={11} lg={11} md={11} sm={11}>
                 <div>

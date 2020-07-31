@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Card, CardContent, TextField, Typography, Collapse, Button } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import postItem from '../databaseManagement/postItem';
-import { CircularProgress } from '@material-ui/core';
+import { CircularProgress, Divider } from '@material-ui/core';
 
 const useStyles = makeStyles(theme => ({
     root: {
@@ -30,6 +30,7 @@ export default function InlineCreatePost(props) {
     const [showTitleInput, setShowTitleInput] = useState(false);
     const [titleErrored, setTitleErrored] = useState(false);
     const [contentErrored, setContentErrored] = useState(false);
+    const [titleErrorMessage, setTitleErrorMessage] = useState('');
 
     const handleContentInputChange = (event) => {
         setContent(event.target.value);
@@ -46,6 +47,10 @@ export default function InlineCreatePost(props) {
     const handleTitleInputChange = (event) => {
         setTitle(event.target.value);
         setTitleErrored(false);
+        if (event.target.value.length > 20) {
+            setTitleErrorMessage('Title cannot be more than 20 characters!')
+            setTitleErrored(true);
+        }
     }
 
     const handleFinishAnimation = () => {
@@ -58,7 +63,7 @@ export default function InlineCreatePost(props) {
     }
 
     const handleCreatePost = async () => {
-        if (whiteSpaceCheck(title) && whiteSpaceCheck(content)) {
+        if (whiteSpaceCheck(title) && whiteSpaceCheck(content) && title.length <= 20 && content.length <= 400) {
             try {
                 props.causeLoading();
                 await postItem(title, props.username, content, props.userid);
@@ -69,9 +74,11 @@ export default function InlineCreatePost(props) {
                 console.log(`Error occurred posting: ${error}`);
                 props.pushNotification('error', 'Error occurred creating post');
             }
+        } else if (!whiteSpaceCheck(title)) {
+            setTitleErrorMessage('Title cannot just be whitespace')
+            setTitleErrored(true);
         } else {
-            !whiteSpaceCheck(title) ? setTitleErrored(true) : setTitleErrored(false);
-            !whiteSpaceCheck(content) ? setContentErrored(true) : setContentErrored(false);
+            setContentErrored(true);
         }
 
     }
@@ -96,7 +103,7 @@ export default function InlineCreatePost(props) {
                         onChange={handleTitleInputChange}
                         defaultValue={title}
                         error={titleErrored}
-                        helperText={titleErrored ? 'Title cannot be only whitespace' : null}
+                        helperText={titleErrored ? titleErrorMessage : null}
                     />
                     </>
                     ) : null }
@@ -117,20 +124,22 @@ export default function InlineCreatePost(props) {
                     ? (
                         <>
                             <div>
+                                <Divider style={{marginBottom: 5}} />
                                 <CircularProgress 
                                 variant='static' 
-                                value={content.length < 1000 ? Math.ceil(content.length/10) : 100} 
-                                size={20} 
-                                color={content.length > 1000 ? 'secondary': 'primary'} />
+                                value={content.length < 400 ? Math.ceil(content.length/4) : 100} 
+                                size={40} 
+                                color={content.length > 400 ? 'secondary': 'primary'} />
+                                <Divider />
                                 <Typography variant='caption' className={classes.erroredText}>
-                                    { content.length > 1000
-                                        ? '1000 character limit reached!'
+                                    { content.length > 400
+                                        ? '400 character limit reached!'
                                         : null
                                     }
                                 </Typography>
                             </div>
                             <div>
-                                <Button color="inherit" disabled={!title || !content ? true : false} onClick={handleCreatePost}>
+                                <Button color="inherit" disabled={!title || !content || title.length > 20 || content.length > 400 ? true : false} onClick={handleCreatePost}>
                                     Create
                                 </Button>
                             </div>

@@ -2,7 +2,8 @@ import React, { useState } from 'react';
 import { Card, CardContent, TextField, Typography, Collapse, Button } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import postItem from '../databaseManagement/postItem';
-import { CircularProgress, Divider } from '@material-ui/core';
+import { Divider } from '@material-ui/core';
+import CircularStatic from '../CircularWithProgress';
 
 const useStyles = makeStyles(theme => ({
     root: {
@@ -125,7 +126,7 @@ export default function InlineCreatePost(props) {
                         <>
                             <div>
                                 <Divider style={{marginBottom: 5}} />
-                                <CircularProgress 
+                                <CircularStatic
                                 variant='static' 
                                 value={content.length < 400 ? Math.ceil(content.length/4) : 100} 
                                 size={40} 

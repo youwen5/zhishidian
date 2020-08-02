@@ -160,19 +160,19 @@ class Profile extends Component {
                             />
                         </Grid>
                         <Grid item xl={8} md={8} sm={8} lg={8} />
+                        <GetMore 
+                            startId={this.state.userPosts.length ? this.state.userPosts[this.state.userPosts.length - 1].id : 0} 
+                            getMorePosts={this.handleGetMorePosts} 
+                        />
                         </>
                     ))
                         : (
-                            <Grid item xs={12} xl={12} sm={12} md={12} lg={12}>
+                            <div style={{display: 'flex', justifyContent: 'center'}}>
                                 <CircularProgress className={classes.circularLoading} />
-                            </Grid>
+                            </div>
                         )
                     }
                 </Grid>
-                <GetMore 
-                    startId={this.state.userPosts.length ? this.state.userPosts[this.state.userPosts.length - 1].id : 0} 
-                    getMorePosts={this.handleGetMorePosts} 
-                />
                 </>
                 )
                 : <LinearIndeterminate />

@@ -56,11 +56,14 @@ class Feed extends Component {
         this.handleRefresh = this.handleRefresh.bind(this);
     }
     getPosts = async () => {
+        let retryAttempts = 0;
+
         try {
             let response;
 
             if (history.location.search) {
                 response = await queryItem(history.location.search.split('=')[1].replace(/%20/g, ' '));
+
                 this.setState({ requestType: 'query' });
             } else {
                 response = await getAll();
@@ -79,14 +82,14 @@ class Feed extends Component {
                 this.setState({ errorFetching: false });
             }
         } catch(error) {
-            if (this.state.retryAttempts < 20) {
-                this.getPosts();
-            } else {
-                this.setState({ errorFetching: true })
+            // if (retryAttempts < 20) {
+            //     this.getPosts();
+            // } else {
+                this.setState({ errorFetching: true });
                 this.handleNotification('error', 'Unexpected error fetching posts');
-            }
-            console.log(`An error occurred while displaying posts`);
-            this.setState({ retryAttempts: this.state.retryAttempts + 1 });
+            // }
+            // console.log(`An error occurred while displaying posts`);
+            // retryAttempts++;
         }
     }
     componentDidMount = () => {

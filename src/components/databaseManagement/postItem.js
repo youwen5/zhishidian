@@ -9,7 +9,10 @@ export default async function postItem(title, author, content, userid) {
             "content": content,
             "user_id": userid
         };
-        await axios.post(`${config.api.invokeUrl}/posts/${title}`, params);
+
+        const res = await axios.post(`${config.api.invokeUrl}/posts`, params);
+
+        return res;
     } catch(error) {
         console.log(`Error occurred posting: ${error}`);
         throw Error;

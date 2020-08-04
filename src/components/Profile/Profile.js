@@ -51,8 +51,6 @@ class Profile extends Component {
             
             this.setState({ user: response[0] });
 
-            console.log(response[0]);
-
             const posts = await getUserPosts(response[0].user_id);
 
             this.setState({ userPosts: posts });

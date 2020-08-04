@@ -21,7 +21,6 @@ export default async function queryItem(queryString, startId=0) {
         });
         return response.data;
     } catch(error) {
-        console.log(`Unexpected error occurred querying: ${error}`);
         throw Error;
     }
 }

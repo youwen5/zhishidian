@@ -56,8 +56,6 @@ class Feed extends Component {
         this.handleRefresh = this.handleRefresh.bind(this);
     }
     getPosts = async () => {
-        let retryAttempts = 0;
-
         try {
             let response;
 
@@ -82,14 +80,8 @@ class Feed extends Component {
                 this.setState({ errorFetching: false });
             }
         } catch(error) {
-            // if (retryAttempts < 20) {
-            //     this.getPosts();
-            // } else {
                 this.setState({ errorFetching: true });
                 this.handleNotification('error', 'Unexpected error fetching posts');
-            // }
-            // console.log(`An error occurred while displaying posts`);
-            // retryAttempts++;
         }
     }
     componentDidMount = () => {

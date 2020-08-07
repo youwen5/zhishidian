@@ -7,6 +7,9 @@ import PageNotFound from './components/PageNotFound';
 import { BrowserRouter as Router, Route, Switch, Redirect } from 'react-router-dom';
 import Signup from './components/Signup/Signup';
 import Login from './components/Login/Login';
+import PrivacyPolicy from './components/PrivacyPolicy';
+import Footer from './components/Footer';
+import InvisibleFooter from './components/InvisibleFooter';
 
 class App extends Component {
   constructor(props) {
@@ -87,8 +90,17 @@ class App extends Component {
                 : <Redirect to='/login' />
             )} 
             />
+            <Route path='/terms' render={() => (
+              <PrivacyPolicy width={this.state.width} />
+            )} />
             <Route exact component={ PageNotFound } />
           </Switch>
+        </div>
+        <div style={{height: 30}}>
+          { this.state.isAuthenticated
+              ? <Footer />
+              : <InvisibleFooter />
+          }
         </div>
       </Router>
     );

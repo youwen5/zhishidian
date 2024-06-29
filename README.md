@@ -1,7 +1,7 @@
 # Zhishidian
 
-知识点 (Zhi Shi Dian): /ʈ͡ʂɨ˥˩ ʂɻ˥ tjɛn˥˩/
-Definition: "knowledge central"
+> 知识点 (Zhi Shi Dian): /ʈ͡ʂɨ˥˩ ʂɻ˥ tjɛn˥˩/
+> Definition: "knowledge central"
 
 A site I made during COVID to help friends and family communicate through a shared Twitter-like service.
 
